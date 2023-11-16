@@ -28,6 +28,10 @@ module.exports = {
         html: false,
       },
     ],
+    'react/prop-types': 'off',
+    'no-constructor-return': 'off',
+    'global-require': 'warn',
+    'import/no-dynamic-require': 'warn',
   },
   parserOptions: {
     ecmaVersion: 2020,
