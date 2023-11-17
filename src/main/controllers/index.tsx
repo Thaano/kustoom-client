@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
 
-require('./summoner');
+require('./lol');
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;

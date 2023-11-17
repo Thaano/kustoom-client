@@ -13,3 +13,7 @@ body,
   font-family: 'Roboto', sans-serif;
   font-family: 'Montserrat', sans-serif;
 }
+
+.Custom-rating img {
+  max-width: none !important;
+}

@@ -32,6 +32,7 @@ module.exports = {
     'no-constructor-return': 'off',
     'global-require': 'warn',
     'import/no-dynamic-require': 'warn',
+    'import/prefer-default-export': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,

@@ -5,9 +5,10 @@ const MainLayout = ({ children }) => {
     <div className="h-full flex flex-col justify-between">
       <div>
         <div className="bg-[#13151B]">
-          <header className="flex flex-row align-middle p-5 container mx-auto">
-            <div className="flex items-center justify-center uppercase font-bold">
-              lol teammaker
+          <header className="flex flex-row align-middle px-3 py-5 md:p-5 lg:container mx-auto">
+            <div className="flex items-center justify-center uppercase font-extrabold text-xl">
+              KUSTOOM
+              <span className="uppercase font-thin text-xs">when</span>
             </div>
             <nav className="p-5">
               {/* <ul className="flex flex-row">
@@ -21,10 +22,12 @@ const MainLayout = ({ children }) => {
             </nav>
           </header>
         </div>
-        <main className="h-full p-5 container mx-auto">{children}</main>
+        <main className="h-full px-3 py-5 md:p-5 lg:container mx-auto">
+          {children}
+        </main>
       </div>
       <div>
-        <footer className="container mx-auto">
+        <footer className="lg:container mx-auto">
           {/* <p className="p-5">Footer</p> */}
         </footer>
       </div>
