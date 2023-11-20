@@ -57,12 +57,19 @@ class LcuAPI {
       await this.resetConnection();
     }
 
+    if (!this.credentials || !this.client || !this.session) {
+      return {
+        success: false,
+        error:
+          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+      };
+    }
+
     try {
       const data = await this.fetchLobbyData();
 
       if (!data) {
-        this.replyWithError(event, "Vous n'êtes pas dans un lobby.");
-        return;
+        return { success: false, error: "Vous n'êtes pas dans un lobby." };
       }
 
       const summoners = data.members.map(this.mapSummonerData);

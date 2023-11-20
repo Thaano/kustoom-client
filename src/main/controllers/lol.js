@@ -1,9 +1,4 @@
 import { ipcMain } from 'electron';
-import {
-  authenticate,
-  createHttpSession,
-  createHttp2Request,
-} from 'league-connect';
 import LcuAPIinstance from '../models/LcuApi';
 import { getLobbyRating, getSummonerData } from '../models/BackendAPi';
 
@@ -60,8 +55,8 @@ ipcMain.on('calculateLobbyRating', async (event, summoners) => {
 
   if (!data.success) {
     event.reply('calculateLobbyRating-reply', {
-      success: true,
-      data: null,
+      success: false,
+      error: data.error,
     });
     return;
   }

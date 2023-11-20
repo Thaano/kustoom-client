@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import { useEffect, useState, useRef } from 'react';
 import Button from 'renderer/components/Button';
 import ErrorMsg from 'renderer/components/ErrorMsg';
 import Summoner from 'renderer/components/Summoner';
@@ -12,6 +12,7 @@ const Home = () => {
   const [teams, setTeams] = useState(); // [{ summoners: [] }, { summoners: [] }
   const [summoners, setSummoners] = useState([]);
   const [hideRank, setHideRank] = useState(false);
+  const teamDivRef = useRef(null);
 
   const initLcuAPI = () => {
     window.electron.ipcRenderer.sendMessage('initLcuAPI');
@@ -40,21 +41,24 @@ const Home = () => {
     });
 
     window.electron.ipcRenderer.on('getSummonersFromLobby-reply', (resp) => {
-      if (resp.success) {
-        setSummoners([]);
-        setSummoners(resp.summoners);
-        setError(false);
-        console.log('getSummonersFromLobby-reply', resp);
-      } else {
+      if (!resp.success) {
         setError(resp.error);
         setSummoners([]);
+        return;
       }
+      setSummoners([]);
+      setSummoners(resp.summoners);
+      setError(false);
+      console.log('getSummonersFromLobby-reply', resp);
     });
 
     window.electron.ipcRenderer.on('calculateLobbyRating-reply', (resp) => {
       if (!resp.success) {
         setError(resp.error);
+        return;
       }
+      setError(false);
+      setTeams(null);
       setSummoners(resp.data);
       console.log('calculateLobbyRating-reply', resp);
     });
@@ -73,8 +77,40 @@ const Home = () => {
 
   const generateTeams = () => {
     setTeams(null);
+    if (!summoners || summoners.length < 2) {
+      setError('Il faut au moins 2 joueurs pour générer des teams');
+      return;
+    }
+
+    setError(false);
     const newTeams = generateBalancedTeams(summoners);
+    if (!newTeams) {
+      setError(
+        'La différence de note entre les teams ne permet pas de générer des teams équilibrées'
+      );
+      return;
+    }
     setTeams(newTeams);
+    console.log('newTeams', newTeams);
+  };
+
+  const screenShot = () => {
+    if (teamDivRef.current) {
+      html2canvas(teamDivRef.current, {
+        allowTaint: true,
+        useCORS: true,
+        // scale: 2,
+        // letterRendering: true,
+      })
+        .then((canvas) => {
+          const dataUrl = canvas.toDataURL('image/png');
+          window.electron.ipcRenderer.sendMessage('takeScreenShot', dataUrl);
+          return null;
+        })
+        .catch((err) => {
+          console.log('err', err);
+        });
+    }
   };
 
   return (
@@ -101,57 +137,63 @@ const Home = () => {
           {hideRank ? 'Afficher' : 'Masquer'} les rangs
         </Button>
         <Button onClick={generateTeams}>Générer des teams</Button>
+        <Button onClick={screenShot}>
+          Prendre un screenshot (presse papier)
+        </Button>
       </div>
 
-      {!teams ? (
-        <div className="grid grid-cols-2 gap-x-4">
-          {summoners.map((summoner) => (
-            <Summoner
-              key={summoner.summonerId}
-              summoner={summoner}
-              updateSummoner={updateSummoner}
-              hideRank={hideRank}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-x-4">
-          <div>
-            <div className="bg-sky-800 rounded-lg px-2 py-1 mb-4 font-bold text-center flex flex-row items-center gap-4 justify-center">
-              BLUE SIDE{' '}
-              <div className="rounded bg-slate-500 py-1 w-[25px] h-[25px] text-center text-xs flex items-center justify-center">
-                {teams.team1.totalRating}
-              </div>
-            </div>
-            {teams.team1.summoners.map((summoner) => (
+      <div ref={teamDivRef} className="bg-[#0e1015]">
+        {!teams && summoners && (
+          <div className="grid grid-cols-2 gap-x-4">
+            {summoners.map((summoner) => (
               <Summoner
                 key={summoner.summonerId}
                 summoner={summoner}
                 updateSummoner={updateSummoner}
                 hideRank={hideRank}
-                borderColor="border-sky-800"
               />
             ))}
           </div>
-          <div>
-            <div className="bg-red-800 rounded-lg px-2 py-1 mb-4 font-bold text-center flex flex-row items-center gap-4 justify-center">
-              RED SIDE{' '}
-              <div className="rounded bg-slate-500 py-1 w-[25px] h-[25px] text-center text-xs flex items-center justify-center">
-                {teams.team2.totalRating}
+        )}
+        {teams && (
+          <div className="grid grid-cols-2 gap-x-4">
+            <div>
+              <div className="bg-sky-800 rounded-lg px-2 py-1 mb-4 font-bold text-center flex flex-row items-center gap-4 justify-center">
+                BLUE SIDE{' '}
+                <div className="rounded bg-slate-500 py-1 w-[25px] h-[25px] text-center text-xs flex items-center justify-center">
+                  {teams.team1.totalRating}
+                </div>
               </div>
+              {teams.team1.summoners.map((summoner) => (
+                <Summoner
+                  key={summoner.summonerId}
+                  summoner={summoner}
+                  updateSummoner={updateSummoner}
+                  hideRank={hideRank}
+                  borderColor="border-sky-800"
+                />
+              ))}
             </div>
-            {teams.team2.summoners.map((summoner) => (
-              <Summoner
-                key={summoner.summonerId}
-                summoner={summoner}
-                updateSummoner={updateSummoner}
-                hideRank={hideRank}
-                borderColor="border-red-800"
-              />
-            ))}
+            <div>
+              <div className="bg-red-800 rounded-lg px-2 py-1 mb-4 font-bold text-center flex flex-row items-center gap-4 justify-center">
+                RED SIDE{' '}
+                <div className="rounded bg-slate-500 py-1 w-[25px] h-[25px] text-center text-xs flex items-center justify-center">
+                  {teams.team2.totalRating}
+                </div>
+              </div>
+              {teams.team2.summoners.map((summoner) => (
+                <Summoner
+                  key={summoner.summonerId}
+                  summoner={summoner}
+                  updateSummoner={updateSummoner}
+                  hideRank={hideRank}
+                  borderColor="border-red-800"
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </MainLayout>
   );
 };

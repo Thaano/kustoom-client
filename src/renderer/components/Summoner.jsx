@@ -1,10 +1,17 @@
 /* eslint-disable global-require */
 import { useEffect, useState } from 'react';
-import ReactStars from 'react-rating-stars-component';
+import styled from 'styled-components';
 
 import emptyRatingIcon from '../../../assets/icons/nerd-empty.png';
 import fullRatingIcon from '../../../assets/icons/nerd-full.png';
 import halfRatingIcon from '../../../assets/icons/nerd-half.png';
+import Rating from './Rating';
+
+const StyledDiv = styled.div`
+  * {
+    /* border: 1px solid red; */
+  }
+`;
 
 const rankIcons = {
   unranked: require('../../../assets/ranks/unranked.png'),
@@ -71,8 +78,8 @@ const Summoner = ({
   };
 
   return (
-    <div
-      className={`grid grid-cols-7 bg-gray-800 rounded-lg border ${borderColor} px-2 py-1 mb-4 text-sm gap-1`}
+    <StyledDiv
+      className={`grid grid-cols-7 items-center bg-gray-800 rounded-lg border ${borderColor} px-2 py-1 mb-4 text-sm gap-1`}
     >
       <div className="col-span-3 grid grid-cols-5 items-center">
         <img
@@ -87,7 +94,7 @@ const Summoner = ({
         <div className="col-span-4 flex flex-col justify-between items-start">
           <input
             type="text"
-            className="bg-transparent font-bold w-[160px]"
+            className="bg-transparent font-bold w-[160px] h-[25px]"
             spellCheck={false}
             placeholder={summoner.summonerInternalName}
             defaultValue={summoner.summonerInternalName}
@@ -124,53 +131,51 @@ const Summoner = ({
               alt=""
               className="w-12 h-12"
             />
-            <div>
-              <div className="flex flex-col justify-between items-start text-xs">
-                <div>
-                  {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
-                    <div className="font-bold">SOLO/DUO</div>
+            <div className="flex flex-col justify-between items-start text-xs">
+              <div>
+                {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
+                  <div className="font-bold">SOLO/DUO</div>
+                )}
+                {summoner.ranked &&
+                  !summoner.ranked.RANKED_SOLO_5x5 &&
+                  summoner.ranked.RANKED_FLEX_SR && (
+                    <div className="font-bold">FLEX</div>
                   )}
-                  {summoner.ranked &&
-                    !summoner.ranked.RANKED_SOLO_5x5 &&
-                    summoner.ranked.RANKED_FLEX_SR && (
-                      <div className="font-bold">FLEX</div>
-                    )}
-                </div>
-                <div>
-                  {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
+              </div>
+              <div>
+                {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
+                  <>
+                    {tiers[summoner.ranked.RANKED_SOLO_5x5.tier]}{' '}
+                    {summoner.ranked.RANKED_SOLO_5x5.rank}
+                  </>
+                )}
+                {summoner.ranked &&
+                  !summoner.ranked.RANKED_SOLO_5x5 &&
+                  summoner.ranked.RANKED_FLEX_SR && (
                     <>
-                      {tiers[summoner.ranked.RANKED_SOLO_5x5.tier]}{' '}
-                      {summoner.ranked.RANKED_SOLO_5x5.rank}
+                      {tiers[summoner.ranked.RANKED_FLEX_SR.tier]}{' '}
+                      {summoner.ranked.RANKED_FLEX_SR.rank}
                     </>
                   )}
-                  {summoner.ranked &&
-                    !summoner.ranked.RANKED_SOLO_5x5 &&
-                    summoner.ranked.RANKED_FLEX_SR && (
-                      <>
-                        {tiers[summoner.ranked.RANKED_FLEX_SR.tier]}{' '}
-                        {summoner.ranked.RANKED_FLEX_SR.rank}
-                      </>
-                    )}
-                  {summoner.ranked &&
-                    !summoner.ranked.RANKED_SOLO_5x5 &&
-                    !summoner.ranked.RANKED_FLEX_SR && <>Unranked</>}
-                </div>
-                <div>
-                  {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
+                {summoner.ranked &&
+                  !summoner.ranked.RANKED_SOLO_5x5 &&
+                  !summoner.ranked.RANKED_FLEX_SR && <>Unranked</>}
+              </div>
+              <div>
+                {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
+                  <>
+                    {summoner.ranked.RANKED_SOLO_5x5.wins}W/
+                    {summoner.ranked.RANKED_SOLO_5x5.losses}L
+                  </>
+                )}
+                {summoner.ranked &&
+                  !summoner.ranked.RANKED_SOLO_5x5 &&
+                  summoner.ranked.RANKED_FLEX_SR && (
                     <>
-                      {summoner.ranked.RANKED_SOLO_5x5.wins}W/
-                      {summoner.ranked.RANKED_SOLO_5x5.losses}L
+                      {summoner.ranked.RANKED_FLEX_SR.wins}W /{' '}
+                      {summoner.ranked.RANKED_FLEX_SR.losses}L
                     </>
                   )}
-                  {summoner.ranked &&
-                    !summoner.ranked.RANKED_SOLO_5x5 &&
-                    summoner.ranked.RANKED_FLEX_SR && (
-                      <>
-                        {summoner.ranked.RANKED_FLEX_SR.wins}W /{' '}
-                        {summoner.ranked.RANKED_FLEX_SR.losses}L
-                      </>
-                    )}
-                </div>
               </div>
             </div>
           </>
@@ -209,25 +214,14 @@ const Summoner = ({
       {/* RATING */}
       <div className="col-span-2 flex flex-row items-center justify-center gap-4">
         {/* <div className="">rating</div> */}
-        {rating && (
-          <ReactStars
-            value={rating}
-            count={5}
-            onChange={ratingChanged}
-            isHalf
-            // emptyIcon={<i className="fa fa-bath" aria-hidden="true"></i>}
-            // emptyIcon={<img src={emptyRatingIcon} className="w-8 h-8" alt="" />}
-            // halfIcon={<img src={halfRatingIcon} alt="" />}
-            // fullIcon={<img src={fullRatingIcon} alt="" />}
-            size={20}
-            // activeColor="#00ff6a"
-          />
+        {rating && summoner && (
+          <Rating rating={summoner.rating} ratingChanged={ratingChanged} />
         )}
         <div className="rounded bg-slate-500 py-1 w-[25px] text-center">
           {summoner.rating}
         </div>
       </div>
-    </div>
+    </StyledDiv>
   );
 };
 

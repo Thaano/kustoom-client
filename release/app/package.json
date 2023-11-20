@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-boilerplate",
-  "version": "4.6.0",
-  "description": "A foundation for scalable desktop apps",
+  "name": "kustoom",
+  "version": "0.1.1",
+  "description": "An app for automatically rating and generating teams on League of Legends custom game lobby",
   "license": "MIT",
   "author": {
     "name": "Electron React Boilerplate Maintainers",

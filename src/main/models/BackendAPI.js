@@ -8,7 +8,7 @@ export const getSummonerData = async (summonerInternalName) => {
     const data = await resp.json();
 
     if (!data.success) {
-      return { success: false, error: 'Erreur interne' };
+      return { success: false, error: data.error };
     }
 
     return { success: true, data: data.data };
@@ -31,12 +31,11 @@ export const getLobbyRating = async (summoners) => {
     const data = await resp.json();
 
     if (!data.success) {
-      return { success: false, error: 'Erreur interne' };
+      return { success: false, error: data.error };
     }
 
     return { success: true, data: data.data.summoners };
   } catch (error) {
-    console.log('error', error);
     return { success: false, error: 'Erreur interne' };
   }
 };
