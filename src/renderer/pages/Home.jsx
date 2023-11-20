@@ -130,7 +130,7 @@ const Home = () => {
           <ErrorMsg>{error}</ErrorMsg>
         </div>
       )}
-      <div className="flex flex-row gap-4 mb-[16px] bg-red-600">
+      <div className="flex flex-row gap-4 mb-[16px]">
         <Button onClick={actualizeSummoners}>Actualiser</Button>
         <Button onClick={calculateLobbyRating}>Calculer les notes</Button>
         <Button onClick={handleHideRank}>
