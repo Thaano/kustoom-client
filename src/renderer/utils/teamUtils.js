@@ -15,25 +15,24 @@ export const generateBalancedTeams = (summoners) => {
     return null;
   }
 
-  console.log('generating balanced teams...');
   let teams = {
     team1: { summoners: [], totalRating: 0 },
     team2: { summoners: [], totalRating: 0 },
   };
 
-  const team1Combinations = combinations([], summoners, 5);
   let bestCombo;
-
   const goodCombos = [];
-  const MAX_ITERATIONS = 100000;
-  let iterations = 0;
   const MAX_COMBOS_TO_COLLECT = 100; // Limite arbitraire sur le nombre de combinaisons à collecter
 
   let diffTreshold = 1;
-  // const maxDiffTreshold = 15;
+  const maxDiffTreshold = 25;
 
-  while (goodCombos.length < 2 && iterations < MAX_ITERATIONS) {
-    console.log('diffTreshold', diffTreshold, 'iterations', iterations);
+  while (goodCombos.length < 2 && diffTreshold <= maxDiffTreshold) {
+    const team1Combinations = combinations(
+      [],
+      summoners,
+      Math.ceil(summoners.length / 2)
+    );
     // eslint-disable-next-line no-restricted-syntax
     for (const combo of team1Combinations) {
       const team1Rating = combo.reduce(
@@ -57,7 +56,6 @@ export const generateBalancedTeams = (summoners) => {
     }
 
     diffTreshold += 1;
-    iterations += 1;
   }
 
   if (goodCombos.length > 0) {

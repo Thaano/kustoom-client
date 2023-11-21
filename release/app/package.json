@@ -1,6 +1,6 @@
 {
-  "name": "kustoom",
-  "version": "0.1.1",
+  "name": "Kustoom",
+  "version": "0.1.0",
   "description": "An app for automatically rating and generating teams on League of Legends custom game lobby",
   "license": "MIT",
   "author": {

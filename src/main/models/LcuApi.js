@@ -52,12 +52,22 @@ class LcuAPI {
     return this.session;
   }
 
-  async getSummonersFromLobby(event, arg) {
+  async isLcuIsRunning() {
     if (!this.credentials || !this.client || !this.session) {
       await this.resetConnection();
     }
 
     if (!this.credentials || !this.client || !this.session) {
+      return false;
+    }
+
+    return true;
+  }
+
+  async getSummonersFromLobby(event, arg) {
+    const status = await this.isLcuIsRunning();
+
+    if (status !== true) {
       return {
         success: false,
         error:
@@ -76,6 +86,39 @@ class LcuAPI {
 
       // eslint-disable-next-line consistent-return
       return { success: true, summoners };
+    } catch (error) {
+      console.error(error);
+      // eslint-disable-next-line consistent-return
+      return {
+        success: false,
+        error:
+          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+      };
+    }
+  }
+
+  async getLobbyName(event, arg) {
+    const status = await this.isLcuIsRunning();
+
+    if (status !== true) {
+      return {
+        success: false,
+        error:
+          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+      };
+    }
+
+    try {
+      const data = await this.fetchLobbyData();
+
+      if (!data) {
+        return { success: false, error: "Vous n'êtes pas dans un lobby." };
+      }
+
+      const lobbyName = data.gameConfig.customLobbyName;
+
+      // eslint-disable-next-line consistent-return
+      return { success: true, lobbyName };
     } catch (error) {
       console.error(error);
       // eslint-disable-next-line consistent-return

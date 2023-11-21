@@ -1,6 +1,8 @@
 /* eslint-disable global-require */
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
+// Initialization for ES Users
 
 import emptyRatingIcon from '../../../assets/icons/nerd-empty.png';
 import fullRatingIcon from '../../../assets/icons/nerd-full.png';
@@ -41,6 +43,39 @@ const tiers = {
   CHALLENGER: 'CHAL',
 };
 
+const FlexRank = ({ summoner, flexRankIcon }) => {
+  return (
+    <div className="col-span-1 flex flex-row items-center gap-1">
+      <img src={flexRankIcon} alt="" className="w-8 h-8" />
+      <div>
+        {summoner.ranked && summoner.ranked.RANKED_FLEX_SR && (
+          <div className="font-bold">FLEX</div>
+        )}
+        <div className="flex flex-col justify-between items-start text-xs">
+          <div>
+            {summoner.ranked && summoner.ranked.RANKED_FLEX_SR && (
+              <>
+                {summoner.ranked.RANKED_FLEX_SR.tier}{' '}
+                {summoner.ranked.RANKED_FLEX_SR.rank}
+              </>
+            )}
+          </div>
+          <div>
+            {summoner.ranked && summoner.ranked.RANKED_FLEX_SR ? (
+              <>
+                {summoner.ranked.RANKED_FLEX_SR.wins}W /{' '}
+                {summoner.ranked.RANKED_FLEX_SR.losses}L
+              </>
+            ) : (
+              <>Unranked</>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Summoner = ({
   summoner,
   updateSummoner,
@@ -58,9 +93,9 @@ const Summoner = ({
   if (!summoner.rating) summoner.rating = rating;
   const ratingChanged = (newRating) => {
     if (newRating === rating) return;
-    if (newRating < 1) {
+    if (newRating < 0.5) {
       // eslint-disable-next-line no-param-reassign
-      newRating = 1;
+      newRating = 0.5;
     }
     if (newRating > 5) {
       // eslint-disable-next-line no-param-reassign
@@ -114,9 +149,19 @@ const Summoner = ({
 
       {/* RANKS */}
       {/* {AFFICHER SOLO UNIQUEMENT OU FLEX OU UNRANKED} */}
-      <div className="col-span-2 flex flex-row items-center gap-2">
+      <div
+        className="col-span-2 flex flex-row items-center gap-2"
+        data-tooltip-id={`tooltip-${summoner.accountId}`}
+      >
         {!hideRank && (
           <>
+            <ReactTooltip
+              id={`tooltip-${summoner.accountId}`}
+              place="left"
+              content={
+                <FlexRank summoner={summoner} flexRankIcon={flexRankIcon} />
+              }
+            />
             <img
               src={
                 // eslint-disable-next-line no-nested-ternary
@@ -181,35 +226,6 @@ const Summoner = ({
           </>
         )}
       </div>
-      {/* <div className="col-span-1 flex flex-row items-center gap-1">
-        {!hideRank && (
-          <>
-            <img src={flexRankIcon} alt="" className="w-8 h-8" />
-            <div>
-              <div className="flex flex-col justify-between items-start text-xs">
-                <div>
-                  {summoner.ranked && summoner.ranked.RANKED_FLEX_SR && (
-                    <>
-                      {summoner.ranked.RANKED_FLEX_SR.tier}{' '}
-                      {summoner.ranked.RANKED_FLEX_SR.rank}
-                    </>
-                  )}
-                </div>
-                <div>
-                  {summoner.ranked && summoner.ranked.RANKED_FLEX_SR ? (
-                    <>
-                      {summoner.ranked.RANKED_FLEX_SR.wins}W /{' '}
-                      {summoner.ranked.RANKED_FLEX_SR.losses}L
-                    </>
-                  ) : (
-                    <>Unranked</>
-                  )}
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </div> */}
 
       {/* RATING */}
       <div className="col-span-2 flex flex-row items-center justify-center gap-4">

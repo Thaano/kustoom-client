@@ -63,7 +63,9 @@ const configuration: webpack.Configuration = {
       NODE_ENV: 'production',
       DEBUG_PROD: false,
       START_MINIMIZED: false,
-      ...dotenv.config().parsed,
+      ...dotenv.config({
+        path: path.resolve(__dirname, '../../.env.prod'),
+      }).parsed,
     }),
 
     new webpack.DefinePlugin({

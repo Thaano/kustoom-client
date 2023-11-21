@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, dialog, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -21,6 +21,31 @@ class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
+
+    // autoUpdater.on('download-progress', (progressObj) => {
+    //   const percent = Math.floor(progressObj.percent);
+    //   mainWindow.webContents.send('update-download-progress', percent);
+    // });
+
+    autoUpdater.on('update-downloaded', () => {
+      dialog
+        .showMessageBox({
+          type: 'info',
+          title: 'Mises à Jour Téléchargées',
+          message:
+            "Une nouvelle version a été téléchargée. Voulez-vous redémarrer maintenant pour l'appliquer?",
+          buttons: ['Oui', 'Plus tard'],
+        })
+        .then((response) => {
+          if (response.response === 0) {
+            autoUpdater.quitAndInstall();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+
     autoUpdater.checkForUpdatesAndNotify();
   }
 }

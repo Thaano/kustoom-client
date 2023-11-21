@@ -33,3 +33,6 @@ LCU INFO*
 # FICHIERS PERSOS
 *.psd
 *.xlsx
+
+
+.env*

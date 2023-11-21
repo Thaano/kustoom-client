@@ -25,6 +25,17 @@ ipcMain.on('initLcuAPI', async (event, arg) => {
   }
 });
 
+ipcMain.on('getLobbyName', async (event, arg) => {
+  const data = await LcuAPIinstance.getLobbyName(event, arg);
+
+  if (!data.success) {
+    event.reply('getLobbyName-reply', data);
+    return;
+  }
+
+  event.reply('getLobbyName-reply', data);
+});
+
 ipcMain.on('getSummonersFromLobby', async (event, arg) => {
   const data = await LcuAPIinstance.getSummonersFromLobby(event, arg);
 
