@@ -47,6 +47,7 @@ const Home = () => {
       if (!resp.success) {
         // console.log('initLcuAPI-reply', resp);
         setError(resp.error);
+        setLoading(false);
       }
     });
 

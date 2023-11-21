@@ -227,6 +227,7 @@
       ]
     },
     "win": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
       "target": [
         "nsis"
       ]
@@ -245,10 +246,18 @@
     "extraResources": [
       "./assets/**"
     ],
-    "publish": {
-      "provider": "generic",
-      "url": "http://kustoom.thaan.fr/api/releases/get/"
-    }
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://kustoom.thaan.fr/api/releases/get/"
+      },
+      {
+        "provider": "github",
+        "owner": "Thaanus",
+        "repo": "kustoom-client",
+        "private": false
+      }
+    ]
   },
   "collective": {
     "url": "https://opencollective.com/electron-react-boilerplate-594"

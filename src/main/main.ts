@@ -19,6 +19,11 @@ require('./controllers/index');
 
 class AppUpdater {
   constructor() {
+    autoUpdater.setFeedURL({
+      provider: 'generic',
+      url: process.env.AUTO_UPDATE_FEED_URL,
+    });
+
     log.transports.file.level = 'info';
     autoUpdater.logger = log;
 
@@ -46,6 +51,7 @@ class AppUpdater {
         });
     });
 
+    autoUpdater.checkForUpdates();
     autoUpdater.checkForUpdatesAndNotify();
   }
 }

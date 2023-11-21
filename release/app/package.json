@@ -4,9 +4,9 @@
   "description": "An app for automatically rating and generating teams on League of Legends custom game lobby",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "Thaan",
+    "email": "eithaan13@gmail.com",
+    "url": "https://kustoom.thaan.fr/"
   },
   "main": "./dist/main/main.js",
   "scripts": {
