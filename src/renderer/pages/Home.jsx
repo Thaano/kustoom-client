@@ -9,7 +9,7 @@ import { generateBalancedTeams } from 'renderer/utils/teamUtils';
 import pluralizedWord from 'renderer/utils/textUtils';
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [lobbyName, setLobbyName] = useState(); // [{ summoners: [] }, { summoners: [] }
   const [teams, setTeams] = useState(); // [{ summoners: [] }, { summoners: [] }
