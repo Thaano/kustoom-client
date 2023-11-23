@@ -154,7 +154,7 @@ const Home = () => {
         });
     }
 
-    toast('📸 Screenshot copied in the clipboard !', {
+    toast('📸 Screenshot copied in the clipboard ! Ctrl+V to share it.', {
       position: 'bottom-right',
       autoClose: 3000,
       hideProgressBar: false,
