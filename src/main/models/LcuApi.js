@@ -6,6 +6,7 @@ import {
   createHttp2Request,
   createHttpSession,
 } from 'league-connect';
+import log from 'electron-log';
 
 class LcuAPI {
   constructor() {
@@ -25,6 +26,7 @@ class LcuAPI {
   }
 
   async resetConnection() {
+    log.info('LcuAPI: resetting connection...');
     try {
       this.credentials = await authenticate();
       this.client = new LeagueClient(this.credentials);
@@ -39,6 +41,7 @@ class LcuAPI {
     } catch (error) {
       if (error instanceof ClientNotFoundError) {
         console.log('Client LoL non trouvé');
+        log.warn('LcuAPI (resetConnection()): LoL client not found', error);
         throw error;
       }
     }
@@ -58,16 +61,20 @@ class LcuAPI {
     }
 
     if (!this.credentials || !this.client || !this.session) {
+      log.warn('LcuAPI: LoL client not found');
       return false;
     }
 
+    log.info('LcuAPI: LoL client running');
     return true;
   }
 
   async getSummonersFromLobby(event, arg) {
+    log.info('LcuAPI: getting summoners from lobby...');
     const status = await this.isLcuIsRunning();
 
     if (status !== true) {
+      log.warn('LcuAPI: LoL client not found');
       return {
         success: false,
         error:
@@ -79,6 +86,7 @@ class LcuAPI {
       const data = await this.fetchLobbyData();
 
       if (!data) {
+        log.warn('LcuAPI: not in a lobby');
         return { success: false, error: "Vous n'êtes pas dans un lobby." };
       }
 
@@ -87,6 +95,7 @@ class LcuAPI {
       // eslint-disable-next-line consistent-return
       return { success: true, summoners };
     } catch (error) {
+      log.error('LcuAPI: error while getting summoners from lobby', error);
       console.error(error);
       // eslint-disable-next-line consistent-return
       return {
@@ -98,6 +107,7 @@ class LcuAPI {
   }
 
   async getLobbyName(event, arg) {
+    log.info('LcuAPI: getting lobby name...');
     const status = await this.isLcuIsRunning();
 
     if (status !== true) {
@@ -112,6 +122,7 @@ class LcuAPI {
       const data = await this.fetchLobbyData();
 
       if (!data) {
+        log.warn('LcuAPI: not in a lobby');
         return { success: false, error: "Vous n'êtes pas dans un lobby." };
       }
 
@@ -120,6 +131,7 @@ class LcuAPI {
       // eslint-disable-next-line consistent-return
       return { success: true, lobbyName };
     } catch (error) {
+      log.warn('LcuAPI: error while getting lobby name', error);
       console.error(error);
       // eslint-disable-next-line consistent-return
       return {
@@ -131,6 +143,7 @@ class LcuAPI {
   }
 
   async getRegion() {
+    log.info('LcuAPI: getting region...');
     const status = await this.isLcuIsRunning();
 
     if (status !== true) {
@@ -145,6 +158,7 @@ class LcuAPI {
       const data = await this.fetchRegionInfo();
 
       if (!data) {
+        log.warn('LcuAPI: error while getting region');
         return { success: false, error: 'Erreur du client' };
       }
 
@@ -152,6 +166,7 @@ class LcuAPI {
       // eslint-disable-next-line consistent-return
       return { success: true, region };
     } catch (error) {
+      log.warn('LcuAPI: error while getting region', error);
       console.error(error);
       // eslint-disable-next-line consistent-return
       return {
@@ -163,6 +178,7 @@ class LcuAPI {
   }
 
   async fetchLobbyData() {
+    log.info('LcuAPI: fetching lobby data...');
     const response = await createHttp2Request(
       { method: 'GET', url: 'lol-lobby/v2/lobby' },
       this.session,
@@ -170,10 +186,12 @@ class LcuAPI {
     );
     const data = await response.json();
 
+    log.info('LcuAPI: lobby data fetched');
     return data.httpStatus !== 404 ? data : null;
   }
 
   async fetchRegionInfo() {
+    log.info('LcuAPI: fetching region info...');
     const response = await createHttp2Request(
       { method: 'GET', url: 'riotclient/region-locale' },
       this.session,
@@ -181,6 +199,7 @@ class LcuAPI {
     );
     const data = await response.json();
 
+    log.info('LcuAPI: region info fetched');
     return data.httpStatus !== 404 ? data : null;
     //   {
     //     "locale": "fr_FR",
