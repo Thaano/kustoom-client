@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, dialog, shell } from 'electron';
+import { app, BrowserWindow, dialog, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -106,7 +106,12 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      nodeIntegration: true,
+      devTools: true,
     },
+    frame: false,
+    // titleBarStyle: 'hidden',
+    titleBarStyle: 'customButtonsOnHover',
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
@@ -163,3 +168,15 @@ app
     });
   })
   .catch(console.log);
+
+ipcMain.on('close', () => {
+  app.quit();
+});
+
+ipcMain.on('minimize', () => {
+  mainWindow?.minimize();
+});
+
+ipcMain.on('maximize', () => {
+  mainWindow?.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+});
