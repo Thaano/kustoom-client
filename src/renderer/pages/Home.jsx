@@ -7,6 +7,15 @@ import Summoner from 'renderer/components/Summoner';
 import MainLayout from 'renderer/layouts/MainLayout';
 import { generateBalancedTeams } from 'renderer/utils/teamUtils';
 import pluralizedWord from 'renderer/utils/textUtils';
+import { toast } from 'react-toastify';
+
+import refreshIcon from '../../../assets/icons/refresh.svg';
+// import calculateRateIcon from '../../../assets/icons/calculator.svg';
+import calculateRateIcon from '../../../assets/icons/dashboard-speed.svg';
+import viewRankIcon from '../../../assets/icons/eye-empty.svg';
+import hideRankIcon from '../../../assets/icons/eye-off.svg';
+import generateTeamsIcon from '../../../assets/icons/group.svg';
+import takeScreenIcon from '../../../assets/icons/copy.svg';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -144,6 +153,17 @@ const Home = () => {
           console.log('err', err);
         });
     }
+
+    toast('📸 Screenshot copied in the clipboard !', {
+      position: 'bottom-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
   };
 
   return (
@@ -160,13 +180,31 @@ const Home = () => {
           <ErrorMsg>{error}</ErrorMsg>
         </div>
       )}
-      <div className="flex flex-row gap-4 mb-[16px]">
-        <Button onClick={actualizeSummoners}>Actualiser</Button>
-        <Button onClick={calculateLobbyRating}>Calculer les notes</Button>
-        <Button onClick={handleHideRank}>
-          {hideRank ? 'Afficher' : 'Masquer'} les rangs
+
+      <div className="flex flex-row gap-4 pb-2 px-2">
+        <Button onClick={actualizeSummoners} title="refresh">
+          <img src={refreshIcon} alt="refresh" className="w-4" /> Refresh
         </Button>
-        <Button onClick={generateTeams}>Générer des teams</Button>
+        <Button onClick={calculateLobbyRating} title="calculate rating">
+          <img src={calculateRateIcon} alt="calculate rating" className="w-4" />{' '}
+          Calculate
+        </Button>
+        <Button onClick={handleHideRank} title="show/hide ranks">
+          <img
+            src={hideRank ? viewRankIcon : hideRankIcon}
+            alt="Show / hide ranks"
+            className="w-4"
+          />
+          {hideRank ? 'Show' : 'Hide'} ranks
+        </Button>
+        <Button onClick={generateTeams} title="Generate random teams">
+          <img
+            src={generateTeamsIcon}
+            alt="generate random teams"
+            className="w-4"
+          />
+          Generate teams
+        </Button>
         {/* <Button
           onClick={(e) => {
             setLoading(!loading);
@@ -174,12 +212,18 @@ const Home = () => {
         >
           Loading
         </Button> */}
-        {/* <Button onClick={screenShot}>
-          Prendre un screenshot (presse papier)
-        </Button> */}
+        <Button onClick={screenShot} title="take a screenshot to clipboard">
+          <img
+            src={takeScreenIcon}
+            alt="take a screenshot"
+            title="take a screenshot"
+            className="w-4"
+          />
+          Screenshot
+        </Button>
       </div>
 
-      <div ref={teamDivRef} className="bg-[#0e1015]">
+      <div ref={teamDivRef} className="bg-[#0e1015] py-2 px-2">
         {loading && (
           <>
             <div className="grid grid-cols-2 gap-x-4">
