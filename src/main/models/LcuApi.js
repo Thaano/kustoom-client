@@ -130,6 +130,38 @@ class LcuAPI {
     }
   }
 
+  async getRegion() {
+    const status = await this.isLcuIsRunning();
+
+    if (status !== true) {
+      return {
+        success: false,
+        error:
+          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+      };
+    }
+
+    try {
+      const data = await this.fetchRegionInfo();
+
+      if (!data) {
+        return { success: false, error: 'Erreur du client' };
+      }
+
+      const { region } = data;
+      // eslint-disable-next-line consistent-return
+      return { success: true, region };
+    } catch (error) {
+      console.error(error);
+      // eslint-disable-next-line consistent-return
+      return {
+        success: false,
+        error:
+          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+      };
+    }
+  }
+
   async fetchLobbyData() {
     const response = await createHttp2Request(
       { method: 'GET', url: 'lol-lobby/v2/lobby' },
@@ -139,6 +171,23 @@ class LcuAPI {
     const data = await response.json();
 
     return data.httpStatus !== 404 ? data : null;
+  }
+
+  async fetchRegionInfo() {
+    const response = await createHttp2Request(
+      { method: 'GET', url: 'riotclient/region-locale' },
+      this.session,
+      this.credentials
+    );
+    const data = await response.json();
+
+    return data.httpStatus !== 404 ? data : null;
+    //   {
+    //     "locale": "fr_FR",
+    //     "region": "EUW",
+    //     "webLanguage": "fr",
+    //     "webRegion": "euw"
+    //  }
   }
 
   mapSummonerData(member) {

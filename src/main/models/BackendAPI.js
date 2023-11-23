@@ -1,5 +1,9 @@
+import LcuAPIinstance from '../models/LcuApi';
+
 export const getSummonerData = async (summonerInternalName) => {
-  const URL = `${process.env.REACT_APP_BACKEND_API_URL}/summoner/get/${summonerInternalName}`;
+  const { region } = await LcuAPIinstance.getRegion();
+
+  const URL = `${process.env.REACT_APP_BACKEND_API_URL}/summoner/get/${region}/${summonerInternalName}`;
   try {
     const resp = await fetch(URL, {
       method: 'GET',
@@ -19,7 +23,8 @@ export const getSummonerData = async (summonerInternalName) => {
 };
 
 export const getLobbyRating = async (summoners) => {
-  const URL = `${process.env.REACT_APP_BACKEND_API_URL}/summoner/calculate-lobby-rating`;
+  const { region } = await LcuAPIinstance.getRegion();
+  const URL = `${process.env.REACT_APP_BACKEND_API_URL}/summoner/calculate-lobby-rating/${region}`;
   try {
     const resp = await fetch(URL, {
       method: 'POST',
