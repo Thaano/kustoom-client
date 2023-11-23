@@ -17,3 +17,7 @@ body,
 .Custom-rating img {
   max-width: none !important;
 }
+
+img {
+  @apply inline-block;
+}
