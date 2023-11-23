@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
 import Header from './Header';
 import Footer from './Footer';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const MainLayout = ({ children }) => {
   return (
@@ -11,6 +15,7 @@ const MainLayout = ({ children }) => {
           {children}
         </main>
       </div>
+      <ToastContainer />
       <Footer />
     </div>
   );
