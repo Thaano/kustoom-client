@@ -4,13 +4,6 @@ import { getLobbyRating, getSummonerData } from '../models/BackendAPi';
 
 require('dotenv').config();
 
-ipcMain.on('test', async (event, arg) => {
-  console.log('test');
-  const nb = Math.random();
-  console.log('nb', nb);
-  event.reply('test', nb);
-});
-
 ipcMain.on('initLcuAPI', async (event, arg) => {
   try {
     await LcuAPIinstance.init(); // Initialise la connexion
