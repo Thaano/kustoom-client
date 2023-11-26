@@ -22,9 +22,9 @@ export const getSummonerData = async (summonerInternalName) => {
   }
 };
 
-export const getLobbyRating = async (summoners) => {
+export const getLobbyRating = async (summoners, method) => {
   const { region } = await LcuAPIinstance.getRegion();
-  const URL = `${process.env.REACT_APP_BACKEND_API_URL}/summoner/calculate-lobby-rating/${region}`;
+  const URL = `${process.env.REACT_APP_BACKEND_API_URL}/summoner/calculate-lobby-rating/${method}/${region}`;
   try {
     const resp = await fetch(URL, {
       method: 'POST',

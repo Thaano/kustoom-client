@@ -1,12 +1,9 @@
 /* eslint-disable global-require */
-import { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
-// Initialization for ES Users
+import { HideRankContext } from 'renderer/hooks/hideRankContext';
 
-import emptyRatingIcon from '../../../assets/icons/nerd-empty.png';
-import fullRatingIcon from '../../../assets/icons/nerd-full.png';
-import halfRatingIcon from '../../../assets/icons/nerd-half.png';
 import Rating from './Rating';
 
 const StyledDiv = styled.div`
@@ -79,9 +76,10 @@ const FlexRank = ({ summoner, flexRankIcon }) => {
 const Summoner = ({
   summoner,
   updateSummoner,
-  hideRank = false,
   borderColor = 'bg-gray-800',
 }) => {
+  const { hideRank } = useContext(HideRankContext);
+
   const soloTier =
     summoner.ranked.RANKED_SOLO_5x5?.tier?.toLowerCase() || 'unranked';
   const soloRankIcon = rankIcons[soloTier];
@@ -114,7 +112,7 @@ const Summoner = ({
 
   return (
     <StyledDiv
-      className={`grid grid-cols-7 items-center bg-gray-800 rounded-lg border ${borderColor} px-2 py-1 mb-4 text-sm gap-1`}
+      className={`grid grid-cols-7 items-center bg-gray-800 rounded-lg border ${borderColor} h-[58px] px-2 py-1 mb-4 text-sm gap-1`}
     >
       <div className="col-span-3 grid grid-cols-5 items-center">
         <img

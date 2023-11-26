@@ -54,8 +54,8 @@ ipcMain.on('getSummonersFromLobby', async (event, arg) => {
   event.reply('getSummonersFromLobby-reply', { success: true, summoners });
 });
 
-ipcMain.on('calculateLobbyRating', async (event, summoners) => {
-  const data = await getLobbyRating(summoners);
+ipcMain.on('calculateLobbyRating', async (event, summoners, method) => {
+  const data = await getLobbyRating(summoners, method);
 
   if (!data.success) {
     event.reply('calculateLobbyRating-reply', {
