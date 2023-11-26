@@ -178,7 +178,8 @@ ipcMain.on('minimize', () => {
 });
 
 ipcMain.on('maximize', () => {
-  mainWindow?.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
+  // eslint-disable-next-line no-unused-expressions
+  mainWindow?.isMaximized() ? mainWindow.unmaximize() : mainWindow?.maximize();
 });
 
 ipcMain.on('getAppVersion', (event) => {

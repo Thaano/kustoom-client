@@ -1,4 +1,4 @@
-import LcuAPIinstance from '../models/LcuApi';
+import LcuAPIinstance from './LcuApi';
 
 export const getSummonerData = async (summonerInternalName) => {
   const { region } = await LcuAPIinstance.getRegion();
