@@ -180,3 +180,7 @@ ipcMain.on('minimize', () => {
 ipcMain.on('maximize', () => {
   mainWindow?.isMaximized() ? mainWindow.unmaximize() : mainWindow.maximize();
 });
+
+ipcMain.on('getAppVersion', (event) => {
+  event.reply('getAppVersion-reply', app.getVersion());
+});

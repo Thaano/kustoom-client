@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import minimizeIcon from '../../../assets/icons/minimize.svg';
@@ -14,6 +15,8 @@ const WindowControlButton = styled.button`
 `;
 
 const Header = () => {
+  const [appVersion, setAppVersion] = useState();
+
   const minimize = () => {
     window.electron.ipcRenderer.sendMessage('minimize');
   };
@@ -23,6 +26,15 @@ const Header = () => {
   const close = () => {
     window.electron.ipcRenderer.sendMessage('close');
   };
+
+  useEffect(() => {
+    window.electron.ipcRenderer.sendMessage('getAppVersion');
+
+    window.electron.ipcRenderer.on('getAppVersion-reply', (resp) => {
+      console.log('getAppVersion-reply', resp);
+      setAppVersion(resp);
+    });
+  }, []);
 
   return (
     <div className="bg-gray-800">
@@ -35,6 +47,7 @@ const Header = () => {
           <span className="uppercase font-bold text-[10px] rounded-lg bg-gray-600 px-1 ml-1">
             when
           </span>
+          <span className="mx-2 text-xs">{appVersion && appVersion}</span>
         </div>
         <div onDoubleClick={maximize} className="flex-1"></div>
         <div className="px-2">
