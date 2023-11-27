@@ -73,7 +73,12 @@ const Header = () => {
 
         <Lang className="flex items-center">
           <div className="dropdown">
-            <label className="flex flex-row items-center" tabIndex="0">
+            <label
+              className="flex flex-row items-center cursor-pointer"
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+              tabIndex="0"
+              htmlFor="lang"
+            >
               <img src={langIcon[currLocale]} alt="" />
               <div className="" style={{ writingMode: 'vertical-rl' }}>
                 {'>'}
