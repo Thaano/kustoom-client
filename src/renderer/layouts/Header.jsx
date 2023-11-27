@@ -84,8 +84,11 @@ const Header = () => {
                 {'>'}
               </div>
             </label>
-            <div className="dropdown-menu">
-              <div tabIndex="-1" className="dropdown-item text-sm">
+            <div className="dropdown-menu bg-gray-700">
+              <div
+                tabIndex="-1"
+                className="dropdown-item text-sm hover:bg-gray-600"
+              >
                 <button
                   type="button"
                   className="flex gap-2"
@@ -94,7 +97,10 @@ const Header = () => {
                   <img src={langIcon.en} alt="français" /> <p>English</p>
                 </button>
               </div>
-              <div tabIndex="-1" className="dropdown-item text-sm">
+              <div
+                tabIndex="-1"
+                className="dropdown-item text-sm hover:bg-gray-600"
+              >
                 <button
                   type="button"
                   className="flex gap-2"
