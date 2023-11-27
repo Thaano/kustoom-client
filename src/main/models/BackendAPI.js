@@ -1,4 +1,7 @@
+import i18next from 'i18next';
 import LcuAPIinstance from './LcuApi';
+
+const { t } = i18next;
 
 export const getSummonerData = async (summonerInternalName) => {
   const { region } = await LcuAPIinstance.getRegion();
@@ -18,7 +21,7 @@ export const getSummonerData = async (summonerInternalName) => {
     return { success: true, data: data.data };
   } catch (error) {
     // console.log('error', error);
-    return { success: false, error: 'Erreur interne' };
+    return { success: false, error: t('backend.errors.internalError') };
   }
 };
 
@@ -41,6 +44,6 @@ export const getLobbyRating = async (summoners, method) => {
 
     return { success: true, data: data.data.summoners };
   } catch (error) {
-    return { success: false, error: 'Erreur interne' };
+    return { success: false, error: t('backend.errors.internalError') };
   }
 };

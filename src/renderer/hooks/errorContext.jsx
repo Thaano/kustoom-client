@@ -9,7 +9,6 @@ export const ErrorProvider = ({ children }) => {
   const showError = useCallback((err) => {
     setError(err);
     if (err) {
-      console.log('error submitted');
       toast.error(err, {
         position: 'bottom-left',
         autoClose: 5000,

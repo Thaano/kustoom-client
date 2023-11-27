@@ -14,8 +14,12 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import i18next from './i18n';
 
 require('./controllers/index');
+const Store = require('electron-store');
+
+const store = new Store();
 
 class AppUpdater {
   constructor() {
@@ -184,4 +188,36 @@ ipcMain.on('maximize', () => {
 
 ipcMain.on('getAppVersion', (event) => {
   event.reply('getAppVersion-reply', app.getVersion());
+});
+
+app.on('ready', () => {
+  // const userLocale = app.getLocale().substring(0, 2);
+  const userLocale = store.get('language')
+    ? store.get('language')
+    : app.getLocale().substring(0, 2);
+  // const userLocale = 'fr';
+  // const userLocale = 'en';
+
+  ipcMain.on('getLocale', (event) => {
+    event.returnValue = userLocale;
+  });
+
+  i18next.init(
+    {
+      lng: userLocale,
+      // ... vos options
+    },
+    (err, t) => {
+      if (err) return console.log('something went wrong loading', err);
+      // t('home.waitingLobbyName'); // -> devrait retourner la traduction
+      // console.log('i18next is ready');
+      // console.log(t('home.waitingLobbyName'));
+      return null;
+    }
+  );
+});
+
+ipcMain.on('changeLanguage', (event, lg) => {
+  i18next.changeLanguage(lg);
+  store.set('language', lg);
 });

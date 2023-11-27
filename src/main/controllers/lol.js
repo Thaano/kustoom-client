@@ -1,8 +1,11 @@
 import { ipcMain } from 'electron';
+import i18next from 'i18next';
 import LcuAPIinstance from '../models/LcuApi';
 import { getLobbyRating, getSummonerData } from '../models/BackendAPi';
 
 require('dotenv').config();
+
+const { t } = i18next;
 
 ipcMain.on('initLcuAPI', async (event, arg) => {
   try {
@@ -12,8 +15,7 @@ ipcMain.on('initLcuAPI', async (event, arg) => {
     console.log('Erreur lors de l’initialisation de LcuAPI:', error);
     event.reply('initLcuAPI-reply', {
       success: false,
-      error:
-        "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+      error: t('backend.lcuApi.clientNotFound'),
     });
   }
 });

@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { generateBalancedTeams } from 'renderer/utils/teamUtils';
+import { useTranslation } from 'react-i18next';
 
 import { LoadingContext } from 'renderer/hooks/loadingContext';
 import { TeamsContext } from 'renderer/hooks/teamsContext';
@@ -11,6 +12,10 @@ import Button from '../Button';
 import generateTeamsIcon from '../../../../assets/icons/group.svg';
 
 const GenerateTeams = () => {
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'home.controlPanel',
+  });
+
   const { setLoading } = useContext(LoadingContext);
   const { setTeams } = useContext(TeamsContext);
   const { summoners } = useContext(SummonersContext);
@@ -25,7 +30,7 @@ const GenerateTeams = () => {
     setLoading(true);
     setTeams(null);
     if (!summoners || summoners.length < 2) {
-      setError('Il faut au moins 2 joueurs pour générer des teams');
+      setError(t('generateTeams.errors.notEnoughPlayers'));
       setLoading(false);
       return;
     }
@@ -33,9 +38,7 @@ const GenerateTeams = () => {
     setError(false);
     const newTeams = generateBalancedTeams(summoners);
     if (!newTeams) {
-      setError(
-        'La différence de note entre les teams ne permet pas de générer des teams équilibrées'
-      );
+      setError(t('generateTeams.errors.tooMuchGap'));
       setLoading(false);
       return;
     }
@@ -48,13 +51,13 @@ const GenerateTeams = () => {
   };
 
   return (
-    <Button onClick={generateTeams} title="Generate random teams">
+    <Button onClick={generateTeams} title={t('generateTeams.title')}>
       <img
         src={generateTeamsIcon}
         alt="generate random teams"
         className="w-4"
       />
-      Generate teams
+      {t('generateTeams.generate')}
     </Button>
   );
 };

@@ -1,19 +1,22 @@
-import { useEffect, useState, useRef, useContext } from 'react';
-import ErrorMsg from 'renderer/components/ErrorMsg';
-import Summoner from 'renderer/components/Summoner';
+import { useEffect, useRef, useContext } from 'react';
 import MainLayout from 'renderer/layouts/MainLayout';
 import pluralizedWord from 'renderer/utils/textUtils';
-import ControlPanel from 'renderer/components/ControlPanel/ControlPanel';
+import { useTranslation } from 'react-i18next';
+
 import { SummonersContext } from 'renderer/hooks/summonersContext';
 import { TeamsContext } from 'renderer/hooks/teamsContext';
 import { LoadingContext } from 'renderer/hooks/loadingContext';
 import { ErrorContext } from 'renderer/hooks/errorContext';
 import { LobbyNameContext } from 'renderer/hooks/lobbyNameContext';
+
+import ControlPanel from 'renderer/components/ControlPanel/ControlPanel';
 import LoadingLayout from 'renderer/components/LoadingLayout';
 import SummonersDiplay from 'renderer/components/SummonersDiplay';
 import TeamsDisplay from 'renderer/components/TeamsDisplay';
 
 const Home = () => {
+  const { t, i18n } = useTranslation();
+
   const { summoners, setSummoners } = useContext(SummonersContext);
   const { teams } = useContext(TeamsContext);
   const { loading, setLoading } = useContext(LoadingContext);
@@ -52,10 +55,10 @@ const Home = () => {
         {lobbyName ? (
           <>
             {lobbyName} ({summoners.length}{' '}
-            {pluralizedWord('joueur', summoners.length)})
+            {pluralizedWord(t('home.player'), summoners.length)})
           </>
         ) : (
-          'Waiting for lobby'
+          <>{t('home.waitingLobbyName')}</>
         )}
       </h1>
 

@@ -7,6 +7,9 @@ import {
   createHttpSession,
 } from 'league-connect';
 import log from 'electron-log';
+import i18next from 'i18next';
+
+const { t } = i18next;
 
 class LcuAPI {
   constructor() {
@@ -40,9 +43,8 @@ class LcuAPI {
       this.client.start();
     } catch (error) {
       if (error instanceof ClientNotFoundError) {
-        console.log('Client LoL non trouvé');
+        console.log(t('backend.lcuApi.clientNotFound'));
         log.warn('LcuAPI (resetConnection()): LoL client not found', error);
-        throw error;
       }
     }
   }
@@ -77,8 +79,7 @@ class LcuAPI {
       log.warn('LcuAPI: LoL client not found');
       return {
         success: false,
-        error:
-          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
       };
     }
 
@@ -87,7 +88,7 @@ class LcuAPI {
 
       if (!data) {
         log.warn('LcuAPI: not in a lobby');
-        return { success: false, error: "Vous n'êtes pas dans un lobby." };
+        return { success: false, error: t('backend.lcuApi.notInALobby') };
       }
 
       const summoners = data.members.map(this.mapSummonerData);
@@ -100,8 +101,7 @@ class LcuAPI {
       // eslint-disable-next-line consistent-return
       return {
         success: false,
-        error:
-          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
       };
     }
   }
@@ -113,8 +113,7 @@ class LcuAPI {
     if (status !== true) {
       return {
         success: false,
-        error:
-          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
       };
     }
 
@@ -123,7 +122,7 @@ class LcuAPI {
 
       if (!data) {
         log.warn('LcuAPI: not in a lobby');
-        return { success: false, error: "Vous n'êtes pas dans un lobby." };
+        return { success: false, error: t('backend.lcuApi.notInALobby') };
       }
 
       const lobbyName = data.gameConfig.customLobbyName;
@@ -136,8 +135,7 @@ class LcuAPI {
       // eslint-disable-next-line consistent-return
       return {
         success: false,
-        error:
-          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
       };
     }
   }
@@ -149,8 +147,7 @@ class LcuAPI {
     if (status !== true) {
       return {
         success: false,
-        error:
-          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
       };
     }
 
@@ -159,7 +156,7 @@ class LcuAPI {
 
       if (!data) {
         log.warn('LcuAPI: error while getting region');
-        return { success: false, error: 'Erreur du client' };
+        return { success: false, error: t('backend.lcuApi.errorFromClient') };
       }
 
       const { region } = data;
@@ -171,8 +168,7 @@ class LcuAPI {
       // eslint-disable-next-line consistent-return
       return {
         success: false,
-        error:
-          "Le client League of Legends n'a pas pu être trouvé. Veuillez lancer le client et réessayer.",
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
       };
     }
   }

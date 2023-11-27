@@ -7,7 +7,10 @@ const LoadingLayout = () => {
       </div>
       <div className="grid grid-cols-2 gap-x-4">
         {Array.from(Array(10).keys()).map((i) => (
-          <div className="skeleton h-[58px] items-center bg-gray-800 rounded-lg border px-2 py-1 mb-4 text-sm gap-1"></div>
+          <div
+            key={i}
+            className="skeleton h-[58px] items-center bg-gray-800 rounded-lg border px-2 py-1 mb-4 text-sm gap-1"
+          ></div>
         ))}
       </div>
     </>

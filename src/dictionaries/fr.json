@@ -1,0 +1,48 @@
+{
+  "backend": {
+    "errors": { "internalError": "Erreur interne" },
+    "lcuApi": {
+      "clientNotFound": "Client introuvable",
+      "clientNotFoundTryToLaunch": "Client LoL introuvable. Essayez de lancer League of Legends et réessayez.",
+      "errorFromClient": "Erreur du client",
+      "notInALobby": "Vous n'êtes pas dans un lobby"
+    }
+  },
+  "home": {
+    "controlPanel": {
+      "generateTeams": {
+        "errors": {
+          "notEnoughPlayers": "Pas assez de joueurs pour générer des équipes",
+          "tooMuchGap": "La différence de note entre les teams ne permet pas de générer des teams équilibrées"
+        },
+        "generate": "Générer des équipes",
+        "title": "Générer des équipes aléatoires"
+      },
+      "rating": {
+        "method1": "Méthode 1",
+        "method2": "Méthode 2",
+        "method3": "Méthode 3",
+        "method4": "Méthode 4",
+        "rate": "Noter",
+        "title": "Noter les joueurs"
+      },
+      "refreshSummoners": {
+        "refresh": "Rafraîchir",
+        "title": "Actualiser les joueurs"
+      },
+      "screenshot": {
+        "screenCopied": "📸 Capture d'écran copiée dans le presse-papier ! Ctrl+V pour la partager.",
+        "take": "Screenshot",
+        "title": "Prendre une capture d'écran dans le presse-papiers"
+      },
+      "showHideRank": {
+        "hide": "Cacher",
+        "rank": "rang",
+        "show": "Afficher",
+        "title": "Afficher/masquer le classement"
+      }
+    },
+    "player": "joueur",
+    "waitingLobbyName": "En attente du lobby"
+  }
+}

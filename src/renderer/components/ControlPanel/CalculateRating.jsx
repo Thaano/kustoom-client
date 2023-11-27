@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 import { SummonersContext } from 'renderer/hooks/summonersContext';
 import { LoadingContext } from 'renderer/hooks/loadingContext';
@@ -18,6 +19,10 @@ const CustomSelect = styled.select`
 `;
 
 const CalculateRating = () => {
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'home.controlPanel',
+  });
+
   const { setLoading } = useContext(LoadingContext);
   const { summoners, setSummoners } = useContext(SummonersContext);
   const { setTeams } = useContext(TeamsContext);
@@ -61,10 +66,10 @@ const CalculateRating = () => {
           setRatingMethod(e.target.value);
         }}
       >
-        <option value="method1">Method 1</option>
-        <option value="method2">Method 2</option>
-        <option value="method3">Method 3</option>
-        <option value="method3">Method 4</option>
+        <option value="method1">{t('rating.method1')}</option>
+        <option value="method2">{t('rating.method2')}</option>
+        <option value="method3">{t('rating.method3')}</option>
+        <option value="method3">{t('rating.method4')}</option>
       </CustomSelect>
       <div
         role="button"
@@ -72,10 +77,11 @@ const CalculateRating = () => {
         onClick={calculateLobbyRating}
         onKeyPress={calculateLobbyRating}
         tabIndex={0}
+        title={t('rating.title')}
       >
         <img src={calculateRateIcon} alt="calculate rating" className="w-4" />{' '}
         <button type="button" className="">
-          Rate
+          {t('rating.rate')}
         </button>
       </div>
 

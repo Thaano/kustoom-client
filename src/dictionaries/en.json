@@ -1,0 +1,51 @@
+{
+  "home": {
+    "waitingLobbyName": "Waiting for lobby",
+    "player": "player",
+    "controlPanel": {
+      "refreshSummoners": {
+        "refresh": "Refresh",
+        "title": "Refresh summoners"
+      },
+      "rating": {
+        "rate": "Rate",
+        "title": "Rate summoners",
+        "method1": "Method 1",
+        "method2": "Method 2",
+        "method3": "Method 3",
+        "method4": "Method 4"
+      },
+      "showHideRank": {
+        "title": "Show/hide rank",
+        "show": "Show",
+        "hide": "Hide",
+        "rank": "rank"
+      },
+      "generateTeams": {
+        "generate": "Generate teams",
+        "title": "Generate random teams",
+        "errors": {
+          "notEnoughPlayers": "Not enough players to generate teams",
+          "tooMuchGap": "Too much gap between players' ratings"
+        }
+      },
+      "screenshot": {
+        "take": "Sreenshot",
+        "title": "Take a screenshot to clipboard",
+        "screenCopied": "📸 Screenshot copied in the clipboard ! Ctrl+V to share it."
+      }
+    }
+  },
+
+  "backend": {
+    "errors": {
+      "internalError": "Internal error"
+    },
+    "lcuApi": {
+      "clientNotFound": "Client not found",
+      "clientNotFoundTryToLaunch": "LoL Client not found. Try to launch League of Legends and retry.",
+      "notInALobby": "You are not in a lobby",
+      "errorFromClient": "Error from client"
+    }
+  }
+}

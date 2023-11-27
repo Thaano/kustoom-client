@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { SummonersContext } from 'renderer/hooks/summonersContext';
 import { LobbyNameContext } from 'renderer/hooks/lobbyNameContext';
@@ -11,6 +12,10 @@ import Button from '../Button';
 import refreshIcon from '../../../../assets/icons/refresh.svg';
 
 const RefreshSummoners = () => {
+  const { t } = useTranslation('translation', {
+    keyPrefix: 'home.controlPanel',
+  });
+
   const { setLoading } = useContext(LoadingContext);
   const { setTeams } = useContext(TeamsContext);
   const { setSummoners } = useContext(SummonersContext);
@@ -62,8 +67,9 @@ const RefreshSummoners = () => {
   };
 
   return (
-    <Button onClick={actualizeSummoners} title="refresh">
-      <img src={refreshIcon} alt="refresh" className="w-4" /> Refresh
+    <Button onClick={actualizeSummoners} title={t('refreshSummoners.title')}>
+      <img src={refreshIcon} alt="refresh" className="w-4" />{' '}
+      {t('refreshSummoners.refresh')}
     </Button>
   );
 };

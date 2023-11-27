@@ -5,6 +5,7 @@ import {
   HashRouter,
 } from 'react-router-dom';
 import Home from './pages/Home';
+import './utils/i18n';
 import './App.css';
 import { SummonersProvider } from './hooks/summonersContext';
 import { TeamsProvider } from './hooks/teamsContext';

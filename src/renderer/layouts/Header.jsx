@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import i18n from 'renderer/utils/i18n';
 
 import minimizeIcon from '../../../assets/icons/minimize.svg';
 import maximizeIcon from '../../../assets/icons/maximize.svg';
 import closeIcon from '../../../assets/icons/close.svg';
+
+import frIcon from '../../../assets/icons/fr.svg';
+import enIcon from '../../../assets/icons/en.svg';
+
+const langIcon = {
+  fr: frIcon,
+  en: enIcon,
+};
 
 const StyledHeader = styled.header`
   -webkit-app-region: drag;
@@ -14,8 +23,13 @@ const WindowControlButton = styled.button`
   -webkit-app-region: no-drag;
 `;
 
+const Lang = styled.div`
+  -webkit-app-region: no-drag;
+`;
+
 const Header = () => {
   const [appVersion, setAppVersion] = useState();
+  const currLocale = i18n.language;
 
   const minimize = () => {
     window.electron.ipcRenderer.sendMessage('minimize');
@@ -36,6 +50,12 @@ const Header = () => {
     });
   }, []);
 
+  const handleChangeLanguage = (lang) => {
+    console.log('handleChangeLanguage', lang);
+    i18n.changeLanguage(lang);
+    window.electron.ipcRenderer.sendMessage('changeLanguage', lang);
+  };
+
   return (
     <div className="bg-gray-800">
       <StyledHeader
@@ -50,6 +70,38 @@ const Header = () => {
           <span className="mx-2 text-xs">{appVersion && appVersion}</span>
         </div>
         <div onDoubleClick={maximize} className="flex-1"></div>
+
+        <Lang className="flex items-center">
+          <div className="dropdown">
+            <label className="flex flex-row items-center" tabIndex="0">
+              <img src={langIcon[currLocale]} alt="" />
+              <div className="" style={{ writingMode: 'vertical-rl' }}>
+                {'>'}
+              </div>
+            </label>
+            <div className="dropdown-menu">
+              <div tabIndex="-1" className="dropdown-item text-sm">
+                <button
+                  type="button"
+                  className="flex gap-2"
+                  onClick={(e) => handleChangeLanguage('en')}
+                >
+                  <img src={langIcon.en} alt="français" /> <p>English</p>
+                </button>
+              </div>
+              <div tabIndex="-1" className="dropdown-item text-sm">
+                <button
+                  type="button"
+                  className="flex gap-2"
+                  onClick={(e) => handleChangeLanguage('fr')}
+                >
+                  <img src={langIcon.fr} alt="français" /> <p>Français</p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </Lang>
+
         <div className="px-2">
           <WindowControlButton
             className="hover:bg-gray-700 h-full"
