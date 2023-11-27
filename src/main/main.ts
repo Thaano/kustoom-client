@@ -12,9 +12,9 @@ import path from 'path';
 import { app, BrowserWindow, dialog, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import i18next from 'i18next';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-import i18next from './i18n';
 
 require('./controllers/index');
 const Store = require('electron-store');
@@ -202,8 +202,16 @@ app.on('ready', () => {
     event.returnValue = userLocale;
   });
 
+  const locales = ['en', 'fr'];
+  const resources = locales.reduce((acc, locale) => {
+    acc[locale] = {
+      translation: require(`../dictionaries/${locale}.json`),
+    };
+    return acc;
+  }, {});
   i18next.init(
     {
+      resources,
       lng: userLocale,
       // ... vos options
     },
