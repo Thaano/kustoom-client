@@ -130,7 +130,7 @@ const Summoner = ({
             className="bg-transparent font-bold w-[160px] h-[25px]"
             spellCheck={false}
             placeholder={summoner.summonerInternalName}
-            defaultValue={summoner.summonerInternalName}
+            defaultValue={summoner.customName}
             onChange={(e) => {
               changeCustomName(e.target.value);
             }}
