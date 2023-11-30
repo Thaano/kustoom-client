@@ -1,7 +1,11 @@
 import { ipcMain } from 'electron';
 import i18next from 'i18next';
 import LcuAPIinstance from '../models/LcuApi';
-import { getLobbyRating, getSummonerData } from '../models/BackendAPi';
+import {
+  getLobbyData,
+  getLobbyRating,
+  getSummonerData,
+} from '../models/BackendAPi';
 
 require('dotenv').config();
 
@@ -39,21 +43,32 @@ ipcMain.on('getSummonersFromLobby', async (event, arg) => {
     return;
   }
 
-  const summoners = [];
-  // eslint-disable-next-line no-restricted-syntax
-  for (const summoner of data.summoners) {
-    // eslint-disable-next-line no-await-in-loop
-    const summonerData = await getSummonerData(summoner.summonerInternalName);
+  // const summoners = [];
+  // // eslint-disable-next-line no-restricted-syntax
+  // for (const summoner of data.summoners) {
+  //   // eslint-disable-next-line no-await-in-loop
+  //   const summonerData = await getSummonerData(summoner.summonerInternalName);
 
-    if (!summonerData.success) {
-      event.reply('getSummonersFromLobby-reply', summonerData);
-      return;
-    }
+  //   if (!summonerData.success) {
+  //     event.reply('getSummonersFromLobby-reply', summonerData);
+  //     return;
+  //   }
 
-    summoners.push({ ...summoner, ...summonerData.data });
+  //   summoners.push({ ...summoner, ...summonerData.data });
+  // }
+
+  const summonerData = await getLobbyData(data.summoners);
+  if (!summonerData.success) {
+    event.reply('getSummonersFromLobby-reply', summonerData);
+    return;
   }
 
-  event.reply('getSummonersFromLobby-reply', { success: true, summoners });
+  const summoners = summonerData.data;
+
+  event.reply('getSummonersFromLobby-reply', {
+    success: true,
+    summoners: summoners.summoners,
+  });
 });
 
 ipcMain.on('calculateLobbyRating', async (event, summoners, method) => {

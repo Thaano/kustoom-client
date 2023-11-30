@@ -15,7 +15,7 @@ const MainLayout = ({ children }) => {
           {children}
         </main>
       </div>
-      <ToastContainer />
+      <ToastContainer limit={3} />
       <Footer />
     </div>
   );

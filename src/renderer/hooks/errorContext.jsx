@@ -1,5 +1,6 @@
 import { createContext, useState, useMemo, useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { getCurrentTime } from 'renderer/utils/timeUtils';
 
 export const ErrorContext = createContext();
 
@@ -9,7 +10,7 @@ export const ErrorProvider = ({ children }) => {
   const showError = useCallback((err) => {
     setError(err);
     if (err) {
-      toast.error(err, {
+      toast.error(`${err} (${getCurrentTime()})`, {
         position: 'bottom-left',
         autoClose: 5000,
         hideProgressBar: false,
