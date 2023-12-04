@@ -55,29 +55,28 @@ const CustomStarRating = ({
   };
 
   return (
-    <div
-      className={`grid grid-cols-${totalStars} gap-0`}
-      data-tooltip-id={`tooltip${uuid}`}
-    >
+    <div data-tooltip-id={`tooltip${uuid}`}>
       <ReactTooltip
         id={`tooltip${uuid}`}
         place="top"
         content={<div>{hoverRating}</div>}
       />
-      {[...Array(totalStars)].map((_, index) => (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
-        <img
-          // eslint-disable-next-line react/no-array-index-key
-          key={index}
-          src={getIcon(index)}
-          onMouseEnter={() => handleMouseEnter(index + 0.5)}
-          onMouseMove={(e) => handleMouseMove(e, index)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => handleOnClick(hoverRating)}
-          alt="rating star"
-          style={{ cursor: 'pointer' }}
-        />
-      ))}
+      <div className="flex flex-wrap gap-0">
+        {[...Array(totalStars)].map((_, index) => (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+          <img
+            // eslint-disable-next-line react/no-array-index-key
+            key={index}
+            src={getIcon(index)}
+            onMouseEnter={() => handleMouseEnter(index + 0.5)}
+            onMouseMove={(e) => handleMouseMove(e, index)}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => handleOnClick(hoverRating)}
+            alt="rating star"
+            className="cursor-pointer w-[23px] h-[23px]"
+          />
+        ))}
+      </div>
     </div>
   );
 };
