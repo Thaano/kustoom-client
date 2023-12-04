@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { HideRankContext } from 'renderer/hooks/hideRankContext';
 
-import Rating from './Rating';
+import Rating from './RatingComponent';
 
 const StyledDiv = styled.div`
   * {
@@ -112,11 +112,11 @@ const Summoner = ({
 
   return (
     <StyledDiv
-      className={`grid grid-cols-7 items-center bg-gray-800 rounded-lg border ${borderColor} h-[58px] px-2 py-1 mb-4 text-sm gap-1`}
+      className={`grid grid-cols-11 gap-2 items-center bg-gray-800 rounded-lg border ${borderColor} h-[58px] px-2 py-1 mb-4 text-sm`}
     >
-      <div className="col-span-3 grid grid-cols-5 items-center">
+      <div className="col-span-4 flex gap-2 items-center">
         <img
-          className="col-span-1 rounded-md w-8 h-8"
+          className="rounded-md w-10 h-10"
           src={`https://ddragon-webp.lolmath.net/latest/img/profileicon/${summoner.summonerIconId}.webp`}
           alt=""
           onError={(e) => {
@@ -124,10 +124,10 @@ const Summoner = ({
               'https://ddragon-webp.lolmath.net/latest/img/profileicon/0.webp';
           }} // Image par défaut
         />
-        <div className="col-span-4 flex flex-col justify-between items-start">
+        <div className="col-span-4 flex flex-col justify-between items-start ">
           <input
             type="text"
-            className="bg-transparent font-bold w-[160px] h-[25px]"
+            className="bg-transparent font-bold w-36 h-[25px]"
             spellCheck={false}
             placeholder={summoner.summonerInternalName}
             defaultValue={summoner.customName}
@@ -140,6 +140,7 @@ const Summoner = ({
                 changeCustomName(e.target.value);
               }
             }}
+            title={summoner.customName}
           />
           <div>lvl {summoner.summonerLevel}</div>
         </div>
@@ -148,7 +149,7 @@ const Summoner = ({
       {/* RANKS */}
       {/* {AFFICHER SOLO UNIQUEMENT OU FLEX OU UNRANKED} */}
       <div
-        className="col-span-2 flex flex-row items-center gap-2"
+        className="col-span-3 flex flex-row items-center gap-2"
         data-tooltip-id={`tooltip-${summoner.accountId}`}
       >
         {!hideRank && (
@@ -226,12 +227,14 @@ const Summoner = ({
       </div>
 
       {/* RATING */}
-      <div className="col-span-2 flex flex-row items-center justify-center gap-4">
+      <div className="col-span-4 grid grid-cols-4 items-center justify-center gap-2">
         {/* <div className="">rating</div> */}
         {rating && summoner && (
-          <Rating rating={summoner.rating} ratingChanged={ratingChanged} />
+          <div className="col-span-3">
+            <Rating rating={summoner.rating} ratingChanged={ratingChanged} />
+          </div>
         )}
-        <div className="rounded bg-slate-500 py-1 w-[25px] text-center">
+        <div className="col-span-1 rounded bg-slate-500 py-1 w-[25px] text-center">
           {summoner.rating}
         </div>
       </div>

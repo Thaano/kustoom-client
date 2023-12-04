@@ -28,11 +28,8 @@ npm-debug.log.*
 *.sass.d.ts
 *.scss.d.ts
 
-LCU INFO*
-
 # FICHIERS PERSOS
 *.psd
 *.xlsx
-
-
 .env*
+release/release-script/
