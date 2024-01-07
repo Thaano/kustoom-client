@@ -33,3 +33,4 @@ npm-debug.log.*
 *.xlsx
 .env*
 release/release-script/
+README_IGNORE.md

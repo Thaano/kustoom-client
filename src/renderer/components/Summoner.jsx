@@ -6,6 +6,18 @@ import { HideRankContext } from 'renderer/hooks/hideRankContext';
 
 import Rating from './RatingComponent';
 
+import unranked from '../../../assets/ranks/mini/unranked.svg';
+import iron from '../../../assets/ranks/mini/iron.svg';
+import bronze from '../../../assets/ranks/mini/bronze.svg';
+import silver from '../../../assets/ranks/mini/silver.svg';
+import gold from '../../../assets/ranks/mini/gold.svg';
+import platinum from '../../../assets/ranks/mini/platinum.svg';
+import emerald from '../../../assets/ranks/mini/emerald.svg';
+import diamond from '../../../assets/ranks/mini/diamond.svg';
+import master from '../../../assets/ranks/mini/master.svg';
+import grandmaster from '../../../assets/ranks/mini/grandmaster.svg';
+import challenger from '../../../assets/ranks/mini/challenger.svg';
+
 const StyledDiv = styled.div`
   * {
     /* border: 1px solid red; */
@@ -13,17 +25,28 @@ const StyledDiv = styled.div`
 `;
 
 const rankIcons = {
-  unranked: require('../../../assets/ranks/unranked.png'),
-  iron: require('../../../assets/ranks/iron.png'),
-  bronze: require('../../../assets/ranks/bronze.png'),
-  silver: require('../../../assets/ranks/silver.png'),
-  gold: require('../../../assets/ranks/gold.png'),
-  platinum: require('../../../assets/ranks/platinum.png'),
-  emerald: require('../../../assets/ranks/emerald.png'),
-  diamond: require('../../../assets/ranks/diamond.png'),
-  master: require('../../../assets/ranks/master.png'),
-  grandmaster: require('../../../assets/ranks/grandmaster.png'),
-  challenger: require('../../../assets/ranks/challenger.png'),
+  // unranked: require('../../../assets/ranks/unranked.png'),
+  // iron: require('../../../assets/ranks/iron.png'),
+  // bronze: require('../../../assets/ranks/bronze.png'),
+  // silver: require('../../../assets/ranks/silver.png'),
+  // gold: require('../../../assets/ranks/gold.png'),
+  // platinum: require('../../../assets/ranks/platinum.png'),
+  // emerald: require('../../../assets/ranks/emerald.png'),
+  // diamond: require('../../../assets/ranks/diamond.png'),
+  // master: require('../../../assets/ranks/master.png'),
+  // grandmaster: require('../../../assets/ranks/grandmaster.png'),
+  // challenger: require('../../../assets/ranks/challenger.png'),
+  unranked,
+  iron,
+  bronze,
+  silver,
+  gold,
+  platinum,
+  emerald,
+  diamond,
+  master,
+  grandmaster,
+  challenger,
 };
 
 const tiers = {
@@ -43,7 +66,7 @@ const tiers = {
 const FlexRank = ({ summoner, flexRankIcon }) => {
   return (
     <div className="col-span-1 flex flex-row items-center gap-1">
-      <img src={flexRankIcon} alt="" className="w-8 h-8" />
+      <img src={flexRankIcon} alt="" className="w-10 h-10" />
       <div>
         {summoner.ranked && summoner.ranked.RANKED_FLEX_SR && (
           <div className="font-bold">FLEX</div>
@@ -150,12 +173,12 @@ const Summoner = ({
       {/* {AFFICHER SOLO UNIQUEMENT OU FLEX OU UNRANKED} */}
       <div
         className="col-span-3 flex flex-row items-center gap-2"
-        data-tooltip-id={`tooltip-${summoner.accountId}`}
+        data-tooltip-id={`tooltip-${summoner.puuid}`}
       >
         {!hideRank && (
           <>
             <ReactTooltip
-              id={`tooltip-${summoner.accountId}`}
+              id={`tooltip-${summoner.puuid}`}
               place="left"
               content={
                 <FlexRank summoner={summoner} flexRankIcon={flexRankIcon} />
@@ -173,7 +196,7 @@ const Summoner = ({
                   : rankIcons.unranked
               }
               alt=""
-              className="w-12 h-12"
+              className="w-10 h-10"
             />
             <div className="flex flex-col justify-between items-start text-xs">
               <div>
