@@ -27,9 +27,7 @@ const RatingComponent = ({ rating, ratingChanged }) => {
     //   // emptyIcon={<img src={rateEmpty} className="w-[24px]" alt="empty star" />}
     //   // halfIcon={<img src={rateHalf} className="w-[24px]" alt="half star" />}
     //   // fullIcon={<img src={rateFull} className="w-[24px]" alt="full star" />}
-    //   activeColor="#ff004c"
     //   size={20}
-    //   // activeColor="#00ff6a"
     // />
   );
 };
