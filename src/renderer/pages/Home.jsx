@@ -62,12 +62,6 @@ const Home = () => {
         )}
       </h1>
 
-      {/* {error && (
-        <div className="my-3 text-white">
-          <ErrorMsg>{error}</ErrorMsg>
-        </div>
-      )} */}
-
       <ControlPanel teamDivRef={teamDivRef} />
 
       <div ref={teamDivRef} className="bg-[#0e1015] py-2 px-2">

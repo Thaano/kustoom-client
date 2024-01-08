@@ -24,8 +24,8 @@ export const generateBalancedTeams = (summoners) => {
   const goodCombos = [];
   const MAX_COMBOS_TO_COLLECT = 100; // Limite arbitraire sur le nombre de combinaisons à collecter
 
-  let diffTreshold = 1;
-  const maxDiffTreshold = 25;
+  let diffTreshold = 1; // Différence de rating maximale par défaut entre les deux équipes
+  const maxDiffTreshold = 25; // Différence de rating maximale que peut atteindre les deux équipes pour rentrer dans un goodCombo
 
   while (goodCombos.length < 2 && diffTreshold <= maxDiffTreshold) {
     const team1Combinations = combinations(

@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   MemoryRouter as Router,
   Routes,
@@ -13,34 +14,38 @@ import { LoadingProvider } from './hooks/loadingContext';
 import { ErrorProvider } from './hooks/errorContext';
 import { HideRankProvider } from './hooks/hideRankContext';
 import { LobbyNameProvider } from './hooks/lobbyNameContext';
+import SeedTester from './pages/SeedTester';
+
+const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <SummonersProvider>
+      <LobbyNameProvider>
+        <TeamsProvider>
+          <LoadingProvider>
+            <ErrorProvider>
+              <HideRankProvider>{children}</HideRankProvider>
+            </ErrorProvider>
+          </LoadingProvider>
+        </TeamsProvider>
+      </LobbyNameProvider>
+    </SummonersProvider>
+  );
+};
 
 const App = () => {
   return (
-    <div>
+    <div className="h-full">
       <HashRouter>
-        {/* <Router> */}
         <Routes>
           <Route
             path="/"
             element={
-              <SummonersProvider>
-                <LobbyNameProvider>
-                  <TeamsProvider>
-                    <LoadingProvider>
-                      <ErrorProvider>
-                        <HideRankProvider>
-                          <Home />
-                        </HideRankProvider>
-                      </ErrorProvider>
-                    </LoadingProvider>
-                  </TeamsProvider>
-                </LobbyNameProvider>
-              </SummonersProvider>
+              <ContextWrapper>
+                <Home />
+              </ContextWrapper>
             }
           />
-          {/* <Route path="/test" element={<Test />} /> */}
         </Routes>
-        {/* </Router> */}
       </HashRouter>
     </div>
   );
