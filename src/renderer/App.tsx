@@ -14,17 +14,22 @@ import { LoadingProvider } from './hooks/loadingContext';
 import { ErrorProvider } from './hooks/errorContext';
 import { HideRankProvider } from './hooks/hideRankContext';
 import { LobbyNameProvider } from './hooks/lobbyNameContext';
+import SeedTester from './pages/SeedTester';
+import History from './pages/History';
+import { TeamsHistoryProvider } from './hooks/teamsHistoryContext';
 
 const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <SummonersProvider>
       <LobbyNameProvider>
         <TeamsProvider>
-          <LoadingProvider>
-            <ErrorProvider>
-              <HideRankProvider>{children}</HideRankProvider>
-            </ErrorProvider>
-          </LoadingProvider>
+          <TeamsHistoryProvider>
+            <LoadingProvider>
+              <ErrorProvider>
+                <HideRankProvider>{children}</HideRankProvider>
+              </ErrorProvider>
+            </LoadingProvider>
+          </TeamsHistoryProvider>
         </TeamsProvider>
       </LobbyNameProvider>
     </SummonersProvider>
@@ -41,6 +46,22 @@ const App = () => {
             element={
               <ContextWrapper>
                 <Home />
+              </ContextWrapper>
+            }
+          />
+          <Route
+            path="/history"
+            element={
+              <ContextWrapper>
+                <History />
+              </ContextWrapper>
+            }
+          />
+          <Route
+            path="/seed-tester"
+            element={
+              <ContextWrapper>
+                <SeedTester />
               </ContextWrapper>
             }
           />

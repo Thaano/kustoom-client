@@ -1,5 +1,20 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-return-assign */
+import { compressToEncodedURIComponent } from 'lz-string';
+
+const generateSeed = (teams) => {
+  const team1 = teams.team1.summoners
+    .map((sum) => `${sum.customName}`)
+    .join(';');
+  const team2 = teams.team2.summoners
+    .map((sum) => `${sum.customName}`)
+    .join(';');
+
+  const string = `${team1},${teams.team1.totalRating}|${team2},${teams.team2.totalRating}`;
+  const compressedString = compressToEncodedURIComponent(string);
+  return compressedString;
+};
+
 function* combinations(combo, list, k) {
   if (k === 0) {
     yield combo;
@@ -84,6 +99,8 @@ export const generateBalancedTeams = (summoners) => {
     return null;
   }
 
+  const seed = generateSeed(teams);
+
   console.log('generated balanced teams');
-  return teams;
+  return { teams, seed };
 };

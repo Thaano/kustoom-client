@@ -9,9 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const MainLayout = ({ children }) => {
   return (
     <div className="h-full flex flex-col justify-between">
-      <div>
+      <div className="h-full overflow-hidden">
         <Header />
-        <main className="h-full px-3 py-5 md:p-5 lg:container mx-auto">
+        <main className="h-full px-3 py-5 md:p-5 lg:container mx-auto overflow-auto">
           {children}
         </main>
       </div>

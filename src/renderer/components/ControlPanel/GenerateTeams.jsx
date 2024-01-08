@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { LoadingContext } from 'renderer/hooks/loadingContext';
 import { TeamsContext } from 'renderer/hooks/teamsContext';
+import { TeamsHistoryContext } from 'renderer/hooks/teamsHistoryContext';
 import { SummonersContext } from 'renderer/hooks/summonersContext';
 import { ErrorContext } from 'renderer/hooks/errorContext';
 
@@ -17,7 +18,8 @@ const GenerateTeams = () => {
   });
 
   const { setLoading } = useContext(LoadingContext);
-  const { setTeams } = useContext(TeamsContext);
+  const { teams, setTeams } = useContext(TeamsContext);
+  const { teamsHistory, setTeamsHistory } = useContext(TeamsHistoryContext);
   const { summoners } = useContext(SummonersContext);
   const { setError } = useContext(ErrorContext);
 
@@ -36,7 +38,7 @@ const GenerateTeams = () => {
     }
 
     setError(false);
-    const newTeams = generateBalancedTeams(summoners);
+    const { teams: newTeams, seed } = generateBalancedTeams(summoners);
     if (!newTeams) {
       setError(t('generateTeams.errors.tooMuchGap'));
       setLoading(false);
@@ -44,7 +46,16 @@ const GenerateTeams = () => {
     }
 
     await delay(300);
-    setTeams(newTeams);
+
+    const team = {
+      ...newTeams,
+      currentSeed: seed,
+      lastSeed: teams ? teams.currentSeed : null,
+      nbReroll: teams ? teams.nbReroll + 1 : 0,
+      createdAt: new Date(),
+    };
+    setTeams(team);
+    setTeamsHistory([team, ...teamsHistory]);
     setLoading(false);
 
     console.log('newTeams', newTeams);

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { SummonersContext } from 'renderer/hooks/summonersContext';
 import { LobbyNameContext } from 'renderer/hooks/lobbyNameContext';
 import { TeamsContext } from 'renderer/hooks/teamsContext';
+import { TeamsHistoryContext } from 'renderer/hooks/teamsHistoryContext';
 import { LoadingContext } from 'renderer/hooks/loadingContext';
 import { ErrorContext } from 'renderer/hooks/errorContext';
 
@@ -18,6 +19,7 @@ const RefreshSummoners = () => {
 
   const { setLoading } = useContext(LoadingContext);
   const { setTeams } = useContext(TeamsContext);
+  const { teamsHistory, setTeamsHistory } = useContext(TeamsHistoryContext);
   const { setSummoners } = useContext(SummonersContext);
   const { setError } = useContext(ErrorContext);
   const { setLobbyName } = useContext(LobbyNameContext);
@@ -64,6 +66,11 @@ const RefreshSummoners = () => {
     setTeams(null);
     setSummoners([]);
     getSummonersFromLobby();
+    setTeamsHistory([
+      { createdAt: new Date(), type: 'refresh' },
+      ...teamsHistory,
+    ]);
+    console.log(teamsHistory);
   };
 
   return (

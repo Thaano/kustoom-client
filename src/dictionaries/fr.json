@@ -1,6 +1,8 @@
 {
   "backend": {
-    "errors": { "internalError": "Erreur interne" },
+    "errors": {
+      "internalError": "Erreur interne"
+    },
     "lcuApi": {
       "clientNotFound": "Client introuvable",
       "clientNotFoundTryToLaunch": "Client LoL introuvable. Essayez de lancer League of Legends et réessayez.",
@@ -8,41 +10,64 @@
       "notInALobby": "Vous n'êtes pas dans un lobby"
     }
   },
+  "footer": {
+    "links": {
+      "home": "Accueil",
+      "history": "Historique",
+      "seed_tester": "Testeur de seed"
+    }
+  },
   "home": {
+    "waitingLobbyName": "En attente du lobby",
+    "player": "joueur",
     "controlPanel": {
-      "generateTeams": {
-        "errors": {
-          "notEnoughPlayers": "Pas assez de joueurs pour générer des équipes",
-          "tooMuchGap": "La différence de note entre les teams ne permet pas de générer des teams équilibrées"
-        },
-        "generate": "Générer des équipes",
-        "title": "Générer des équipes aléatoires"
-      },
-      "rating": {
-        "method1": "Méthode 1",
-        "method2": "Méthode 2",
-        "method3": "Méthode 3",
-        "method4": "Méthode 4",
-        "rate": "Noter",
-        "title": "Noter les joueurs"
-      },
       "refreshSummoners": {
         "refresh": "Rafraîchir",
         "title": "Actualiser les joueurs"
       },
-      "screenshot": {
-        "screenCopied": "📸 Capture d'écran copiée dans le presse-papier ! Ctrl+V pour la partager.",
-        "take": "Screenshot",
-        "title": "Prendre une capture d'écran dans le presse-papiers"
+      "rating": {
+        "rate": "Noter",
+        "title": "Noter les joueurs",
+        "method1": "Méthode 1",
+        "method2": "Méthode 2",
+        "method3": "Méthode 3",
+        "method4": "Méthode 4"
       },
       "showHideRank": {
-        "hide": "Cacher",
-        "rank": "rang",
+        "title": "Afficher/masquer le classement",
         "show": "Afficher",
-        "title": "Afficher/masquer le classement"
+        "hide": "Cacher",
+        "rank": "rang"
+      },
+      "generateTeams": {
+        "generate": "Générer des équipes",
+        "title": "Générer des équipes aléatoires",
+        "errors": {
+          "notEnoughPlayers": "Pas assez de joueurs pour générer des équipes",
+          "tooMuchGap": "La différence de note entre les teams ne permet pas de générer des teams équilibrées"
+        }
+      },
+      "screenshot": {
+        "screenCopied": "📸 Capture d'écran copiée dans le presse-papier ! Ctrl+V pour la partager.",
+        "title": "Prendre une capture d'écran dans le presse-papiers",
+        "take": "Screenshot"
       }
     },
-    "player": "joueur",
-    "waitingLobbyName": "En attente du lobby"
+    "team_display": {
+      "reroll_number": "Nombre de rerolls",
+      "previous_seed": "Seed précédente"
+    }
+  },
+  "seed_tester": {
+    "title": "Testeur de seed",
+    "generate": "Générer les équipes depuis le seed",
+    "errors": {
+      "invalid_seed": "Erreur : le seed n'est pas valide"
+    }
+  },
+  "history": {
+    "title": "Historique des tirages",
+    "generated_at": "Seed à",
+    "lobby_refreshed": "Lobby actualisé"
   }
 }

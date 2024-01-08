@@ -53,7 +53,7 @@ const rankIcons = {
 const tiers = {
   UNRANKED: 'UNRANKED',
   IRON: 'IRON',
-  BRONZE: 'BRONZE',
+  BRONZE: 'BRZ',
   SILVER: 'SILVER',
   GOLD: 'GOLD',
   PLATINUM: 'PLAT',
@@ -99,16 +99,17 @@ const FlexRank = ({ summoner, flexRankIcon }) => {
 
 const Summoner = ({
   summoner,
-  updateSummoner,
+  updateSummoner = () => null,
   borderColor = 'bg-gray-800',
+  enableRating = true,
 }) => {
   const { hideRank } = useContext(HideRankContext);
 
   const soloTier =
-    summoner.ranked.RANKED_SOLO_5x5?.tier?.toLowerCase() || 'unranked';
+    summoner.ranked?.RANKED_SOLO_5x5?.tier?.toLowerCase() || 'unranked';
   const soloRankIcon = rankIcons[soloTier];
   const flexTier =
-    summoner.ranked.RANKED_FLEX_SR?.tier?.toLowerCase() || 'unranked';
+    summoner.ranked?.RANKED_FLEX_SR?.tier?.toLowerCase() || 'unranked';
   const flexRankIcon = rankIcons[flexTier];
 
   const [rating, setRating] = useState(summoner.rating ? summoner.rating : 1);
@@ -173,7 +174,9 @@ const Summoner = ({
       {/* RANKS */}
       {/* {AFFICHER SOLO UNIQUEMENT OU FLEX OU UNRANKED} */}
       <div
-        className="col-span-3 flex flex-row items-center gap-2"
+        className={`${
+          enableRating ? 'col-span-3' : 'col-span-5'
+        } flex flex-row items-center gap-2`}
         data-tooltip-id={`tooltip-${summoner.puuid}`}
       >
         {!hideRank && (
@@ -238,11 +241,17 @@ const Summoner = ({
       </div>
 
       {/* RATING */}
-      <div className="col-span-4 grid grid-cols-4 items-center justify-center gap-2">
+      <div
+        className={`${
+          enableRating ? 'col-span-4' : 'col-span-2'
+        } grid grid-cols-4 items-center justify-center gap-2`}
+      >
         {/* <div className="">rating</div> */}
         {rating && summoner && (
-          <div className="col-span-3">
-            <Rating rating={summoner.rating} ratingChanged={ratingChanged} />
+          <div className={`${enableRating ? 'col-span-3' : 'col-span-1'}`}>
+            {enableRating && (
+              <Rating rating={summoner.rating} ratingChanged={ratingChanged} />
+            )}
           </div>
         )}
         <div className="col-span-1 rounded bg-slate-500 py-1 w-[25px] text-center">

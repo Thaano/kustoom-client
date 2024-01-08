@@ -1,4 +1,22 @@
 {
+  "backend": {
+    "errors": {
+      "internalError": "Internal error"
+    },
+    "lcuApi": {
+      "clientNotFound": "Client not found",
+      "clientNotFoundTryToLaunch": "LoL Client not found. Try to launch League of Legends and retry.",
+      "notInALobby": "You are not in a lobby",
+      "errorFromClient": "Error from client"
+    }
+  },
+  "footer": {
+    "links": {
+      "home": "Home",
+      "history": "History",
+      "seed_tester": "Seed tester"
+    }
+  },
   "home": {
     "waitingLobbyName": "Waiting for lobby",
     "player": "player",
@@ -34,18 +52,22 @@
         "title": "Take a screenshot to clipboard",
         "screenCopied": "📸 Screenshot copied in the clipboard ! Ctrl+V to share it."
       }
+    },
+    "team_display": {
+      "reroll_number": "Number of rerolls",
+      "previous_seed": "Previous seed"
     }
   },
-
-  "backend": {
+  "seed_tester": {
+    "title": "Seed tester",
+    "generate": "Generate teams from the seed",
     "errors": {
-      "internalError": "Internal error"
-    },
-    "lcuApi": {
-      "clientNotFound": "Client not found",
-      "clientNotFoundTryToLaunch": "LoL Client not found. Try to launch League of Legends and retry.",
-      "notInALobby": "You are not in a lobby",
-      "errorFromClient": "Error from client"
+      "invalid_seed": "Error: invalid seed"
     }
+  },
+  "history": {
+    "title": "Draw history",
+    "generated_at": "Seed at",
+    "lobby_refreshed": "Lobby refreshed"
   }
 }
