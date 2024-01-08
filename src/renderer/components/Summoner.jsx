@@ -17,6 +17,7 @@ import diamond from '../../../assets/ranks/mini/diamond.svg';
 import master from '../../../assets/ranks/mini/master.svg';
 import grandmaster from '../../../assets/ranks/mini/grandmaster.svg';
 import challenger from '../../../assets/ranks/mini/challenger.svg';
+import RankIcon from './RankIcon';
 
 const StyledDiv = styled.div`
   * {
@@ -184,20 +185,7 @@ const Summoner = ({
                 <FlexRank summoner={summoner} flexRankIcon={flexRankIcon} />
               }
             />
-            <img
-              src={
-                // eslint-disable-next-line no-nested-ternary
-                summoner.ranked && summoner.ranked.RANKED_SOLO_5x5
-                  ? soloRankIcon
-                  : summoner.ranked &&
-                    !summoner.ranked.RANKED_SOLO_5x5 &&
-                    summoner.ranked.RANKED_FLEX_SR
-                  ? flexRankIcon
-                  : rankIcons.unranked
-              }
-              alt=""
-              className="w-10 h-10"
-            />
+            <RankIcon ranked={summoner.ranked} />
             <div className="flex flex-col justify-between items-start text-xs">
               <div>
                 {summoner.ranked && summoner.ranked.RANKED_SOLO_5x5 && (
