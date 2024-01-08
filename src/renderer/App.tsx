@@ -14,7 +14,6 @@ import { LoadingProvider } from './hooks/loadingContext';
 import { ErrorProvider } from './hooks/errorContext';
 import { HideRankProvider } from './hooks/hideRankContext';
 import { LobbyNameProvider } from './hooks/lobbyNameContext';
-import SeedTester from './pages/SeedTester';
 
 const ContextWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
