@@ -199,7 +199,8 @@
     "files": [
       "dist",
       "node_modules",
-      "package.json"
+      "package.json",
+      "!src/mockup/**/*"
     ],
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {

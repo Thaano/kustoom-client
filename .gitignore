@@ -34,3 +34,4 @@ npm-debug.log.*
 .env*
 release/release-script/
 README_IGNORE.md
+src/mockup/

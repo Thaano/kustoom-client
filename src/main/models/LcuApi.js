@@ -8,6 +8,7 @@ import {
 } from 'league-connect';
 import log from 'electron-log';
 import i18next from 'i18next';
+// import { summonersMockup } from '../../mockup/summoners.js';
 
 const { t } = i18next;
 
@@ -92,6 +93,7 @@ class LcuAPI {
       }
 
       const summoners = data.members.map(this.mapSummonerData);
+      // const summoners = summonersMockup;
 
       // eslint-disable-next-line consistent-return
       return { success: true, summoners };
