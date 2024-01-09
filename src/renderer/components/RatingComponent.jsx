@@ -1,8 +1,11 @@
 // import ReactStars from 'react-rating-stars-component';
 
-import rateFull from '../../../assets/rating/rating-7.png';
-import rateHalf from '../../../assets/rating/rating-5.png';
-import rateEmpty from '../../../assets/rating/rating-1.png';
+// import rateFull from '../../../assets/rating/rating-7.png';
+// import rateHalf from '../../../assets/rating/rating-5.png';
+// import rateEmpty from '../../../assets/rating/rating-1.png';
+import rateFull from '../../../assets/rating/star-full.svg';
+import rateHalf from '../../../assets/rating/star-half.svg';
+import rateEmpty from '../../../assets/rating/star-empty.svg';
 import CustomStarRating from './CustomStarRating';
 
 const RatingComponent = ({ rating, ratingChanged }) => {
