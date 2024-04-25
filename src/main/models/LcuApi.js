@@ -105,7 +105,9 @@ class LcuAPI {
       summoners.forEach((summoner) => {
         summoner.riotName = aliases[summoner.summonerId];
       });
-      // console.log('summoners', summoners);
+      console.log('summoners', summoners);
+      log.info('LcuAPI: summoners fetched');
+      log.info('LcuAPI: summoners', summoners);
 
       return { success: true, summoners };
     } catch (error) {
