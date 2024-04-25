@@ -8,6 +8,7 @@ import {
 } from 'league-connect';
 import log from 'electron-log';
 import i18next from 'i18next';
+
 // import { summonersMockup } from '../../mockup/summoners.js';
 
 const { t } = i18next;
@@ -96,9 +97,52 @@ class LcuAPI {
       // const summoners = summonersMockup;
 
       // eslint-disable-next-line consistent-return
+      const { data: aliases } = await this.getSummonersAliases(
+        summoners.map((summoner) => summoner.summonerId)
+      );
+      // console.log('aliases', aliases);
+
+      summoners.forEach((summoner) => {
+        summoner.riotName = aliases[summoner.summonerId];
+      });
+      // console.log('summoners', summoners);
+
       return { success: true, summoners };
     } catch (error) {
       log.error('LcuAPI: error while getting summoners from lobby', error);
+      console.error(error);
+      // eslint-disable-next-line consistent-return
+      return {
+        success: false,
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
+      };
+    }
+  }
+
+  async getSummonersAliases(ids) {
+    log.info('LcuAPI: getting summoners aliases...');
+    const status = await this.isLcuIsRunning();
+
+    if (status !== true) {
+      log.warn('LcuAPI: LoL client not found');
+      return {
+        success: false,
+        error: t('backend.lcuApi.clientNotFoundTryToLaunch'),
+      };
+    }
+
+    try {
+      const data = await this.fetchSummonersAliases(ids);
+
+      if (!data) {
+        log.warn('LcuAPI: error while getting summoners aliases');
+        return { success: false, error: t('backend.lcuApi.errorFromClient') };
+      }
+
+      // eslint-disable-next-line consistent-return
+      return { success: true, data };
+    } catch (error) {
+      log.warn('LcuAPI: error while getting summoners aliases', error);
       console.error(error);
       // eslint-disable-next-line consistent-return
       return {
@@ -205,6 +249,31 @@ class LcuAPI {
     //     "webLanguage": "fr",
     //     "webRegion": "euw"
     //  }
+  }
+
+  async fetchSummonersAliases(ids) {
+    log.info('LcuAPI: fetching summoners aliases...', ids);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    const response = await fetch(
+      `https://127.0.0.1:${this.credentials.port}/lol-summoner/v1/summoner-aliases-by-ids`,
+      // 'https://127.0.0.1:12220/lol-summoner/v1/summoner-aliases-by-ids',
+      {
+        method: 'POST',
+        body: JSON.stringify([31039646]),
+        headers: {
+          Authorization: `Basic ${Buffer.from(
+            `riot:${this.credentials.password}`
+          ).toString('base64')}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await response.json();
+    // console.log('data', data);
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+
+    log.info('LcuAPI: summoners aliases fetched');
+    return data.httpStatus !== 404 ? data : null;
   }
 
   mapSummonerData(member) {
