@@ -97,10 +97,9 @@ class LcuAPI {
       // const summoners = summonersMockup;
 
       // eslint-disable-next-line consistent-return
-      const { data: aliases } = await this.getSummonersAliases(
-        summoners.map((summoner) => summoner.summonerId)
-      );
-      // console.log('aliases', aliases);
+      const summonersIds = summoners.map((summoner) => summoner.summonerId);
+      const { data: aliases } = await this.getSummonersAliases(summonersIds);
+      console.log('aliases', aliases);
 
       summoners.forEach((summoner) => {
         summoner.riotName = aliases[summoner.summonerId];
@@ -261,7 +260,7 @@ class LcuAPI {
       // 'https://127.0.0.1:12220/lol-summoner/v1/summoner-aliases-by-ids',
       {
         method: 'POST',
-        body: JSON.stringify([31039646]),
+        body: JSON.stringify(ids),
         headers: {
           Authorization: `Basic ${Buffer.from(
             `riot:${this.credentials.password}`
